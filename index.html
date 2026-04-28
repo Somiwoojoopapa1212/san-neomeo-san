@@ -588,24 +588,25 @@ async function searchMountain() {
 
   try {
     const resp = await fetch(
-      `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(q)}&size=10`,
-      { headers: { 'Authorization': 'KakaoAK 993c5a992861be3eea43cb5ee7f68376' } }
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&accept-language=ko&countrycodes=kr&limit=10`,
+      { headers: { 'Accept-Language': 'ko' } }
     );
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    const places = data.documents || [];
+    const places = await resp.json();
 
     if (!places.length) {
       resultsEl.innerHTML = '<div class="search-empty">검색 결과가 없습니다</div>';
       return;
     }
     window._searchResults = places;
-    resultsEl.innerHTML = places.map((r, i) =>
-      `<div class="search-item" onclick="selectSearchResult(${i})">
-        <div class="s-name">${r.place_name}</div>
-        <div class="s-addr">${r.address_name}</div>
-      </div>`
-    ).join('');
+    resultsEl.innerHTML = places.map((r, i) => {
+      const name = r.name || r.display_name.split(',')[0].trim();
+      const addr = r.display_name;
+      return `<div class="search-item" onclick="selectSearchResult(${i})">
+        <div class="s-name">${name}</div>
+        <div class="s-addr">${addr}</div>
+      </div>`;
+    }).join('');
   } catch(e) {
     resultsEl.innerHTML = `<div class="search-empty">검색 실패: ${e.message}</div>`;
   }
@@ -613,10 +614,11 @@ async function searchMountain() {
 
 function selectSearchResult(idx) {
   const r = window._searchResults[idx];
-  selectedMtn = { name: r.place_name, address: r.address_name };
-  document.getElementById('mountain-search-input').value = r.place_name;
+  const name = r.name || r.display_name.split(',')[0].trim();
+  selectedMtn = { name, address: r.display_name };
+  document.getElementById('mountain-search-input').value = name;
   document.getElementById('search-results').classList.add('hidden');
-  document.getElementById('selected-mountain-name').textContent = r.place_name;
+  document.getElementById('selected-mountain-name').textContent = name;
   document.getElementById('selected-mountain-wrap').classList.remove('hidden');
 }
 
