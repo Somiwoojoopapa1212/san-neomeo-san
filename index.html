@@ -168,6 +168,20 @@
     .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
     .lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .hidden { display: none !important; }
+
+    /* ── 업데이트 배너 ── */
+    .update-banner {
+      position: fixed; bottom: 84px; left: 16px; right: 16px;
+      background: var(--g-dark); color: var(--white);
+      border-radius: 16px; padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35); z-index: 200;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .update-banner .msg { font-size: 0.9rem; flex: 1; }
+    .update-banner .msg small { display: block; font-size: 0.75rem; opacity: 0.75; margin-top: 2px; font-family: 'Noto Sans KR', sans-serif; }
+    .update-btn { background: var(--g-light); border: none; border-radius: 10px; padding: 8px 14px; color: var(--g-dark); font-family: 'Jua', sans-serif; font-size: 0.88rem; cursor: pointer; white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -407,6 +421,15 @@
       <div class="memo-display" id="detail-memo"></div>
     </div>
   </div>
+</div>
+
+<!-- 업데이트 배너 -->
+<div id="update-banner" class="update-banner hidden">
+  <div class="msg">
+    🆕 새 버전이 있어요!
+    <small id="update-banner-sub">지금 업데이트하거나 다음 실행 시 자동 적용됩니다.</small>
+  </div>
+  <button class="update-btn" onclick="applyUpdate()">업데이트</button>
 </div>
 
 <!-- 로딩 -->
@@ -976,16 +999,41 @@ function calcDistance(points) {
 /* ════ 앱 시작 ════ */
 if (familyCode) loadHome(); else showScreen('code');
 
+/* ════ 서비스워커 + 자동 업데이트 ════ */
 if ('serviceWorker' in navigator) {
+  let pendingSW = null;
+
   navigator.serviceWorker.register('sw.js').then(reg => {
+    // 앱 실행 시 업데이트 확인
+    reg.update();
+
     reg.addEventListener('updatefound', () => {
-      const sw = reg.installing;
-      sw.addEventListener('statechange', () => {
-        if (sw.state === 'installed' && navigator.serviceWorker.controller) sw.postMessage({ type: 'SKIP_WAITING' });
+      const newSW = reg.installing;
+      newSW.addEventListener('statechange', () => {
+        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+          pendingSW = newSW;
+          // 등산 중이 아니면 즉시 자동 업데이트, 등산 중이면 배너 표시
+          if (!currentHike) {
+            newSW.postMessage({ type: 'SKIP_WAITING' });
+          } else {
+            document.getElementById('update-banner-sub').textContent =
+              '등산 완료 후 앱을 재시작하면 자동 적용됩니다.';
+            document.getElementById('update-banner').classList.remove('hidden');
+          }
+        }
       });
     });
   });
-  navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
+
+  // 새 SW가 활성화되면 페이지 새로고침
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+
+  window.applyUpdate = function() {
+    document.getElementById('update-banner').classList.add('hidden');
+    if (pendingSW) pendingSW.postMessage({ type: 'SKIP_WAITING' });
+  };
 }
 </script>
 </body>
