@@ -24,319 +24,192 @@
       --shadow:    rgba(45,106,79,0.15);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Jua', 'Noto Sans KR', sans-serif;
       background: linear-gradient(160deg, var(--g-bg) 0%, var(--g-card) 100%);
-      color: var(--g-dark);
-      min-height: 100vh;
+      color: var(--g-dark); min-height: 100vh;
     }
-
     .screen { display: none; flex-direction: column; min-height: 100vh; }
     .screen.active { display: flex; }
 
-    /* ── 공통 헤더 ── */
     .top-bar {
-      background: var(--g-primary);
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background: var(--g-primary); color: var(--white);
+      display: flex; align-items: center; padding: 14px 16px; gap: 12px;
+      position: sticky; top: 0; z-index: 10;
     }
     .top-bar h2 { flex: 1; font-size: 1.1rem; }
-    .top-bar .back-btn {
-      background: none; border: none; color: var(--white);
-      font-size: 1.4rem; cursor: pointer; padding: 0 4px;
-    }
-    .top-bar .icon-btn {
-      background: rgba(255,255,255,0.2); border: none; color: var(--white);
-      border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 0.85rem;
-    }
+    .top-bar .back-btn { background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; padding: 0 4px; }
+    .top-bar .icon-btn { background: rgba(255,255,255,0.2); border: none; color: var(--white); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 0.85rem; }
 
-    /* ── 카드 ── */
-    .card {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 20px var(--shadow);
-      margin: 0 16px 16px;
-    }
-
-    /* ── 버튼 ── */
     .btn-primary {
       width: 100%; background: linear-gradient(135deg, var(--g-primary), var(--g-mid));
-      border: none; border-radius: 16px; padding: 16px;
-      color: var(--white); font-family: 'Jua', sans-serif; font-size: 1.1rem;
-      cursor: pointer; box-shadow: 0 4px 14px var(--shadow);
-      transition: transform 0.15s;
+      border: none; border-radius: 16px; padding: 16px; color: var(--white);
+      font-family: 'Jua', sans-serif; font-size: 1.1rem; cursor: pointer;
+      box-shadow: 0 4px 14px var(--shadow); transition: transform 0.15s;
     }
     .btn-primary:active { transform: scale(0.97); }
     .btn-secondary {
       width: 100%; background: var(--g-bg); border: 2px solid var(--g-pale);
       border-radius: 16px; padding: 14px; color: var(--g-primary);
-      font-family: 'Jua', sans-serif; font-size: 1rem; cursor: pointer;
-      margin-top: 10px; transition: opacity 0.15s;
+      font-family: 'Jua', sans-serif; font-size: 1rem; cursor: pointer; margin-top: 10px;
     }
-    .btn-secondary:active { opacity: 0.7; }
     .btn-danger {
       width: 100%; background: #FFF0F0; border: 2px solid #FFCDD2;
       border-radius: 16px; padding: 14px; color: #C62828;
-      font-family: 'Jua', sans-serif; font-size: 1rem; cursor: pointer;
-      margin-top: 10px;
+      font-family: 'Jua', sans-serif; font-size: 1rem; cursor: pointer; margin-top: 10px;
     }
 
-    /* ── 입력 ── */
     .input-field {
       width: 100%; border: 2px solid var(--g-pale); border-radius: 14px;
       padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 1rem;
-      color: var(--g-dark); background: var(--white); outline: none;
-      transition: border-color 0.2s;
+      color: var(--g-dark); background: var(--white); outline: none; transition: border-color 0.2s;
     }
     .input-field:focus { border-color: var(--g-primary); }
     .input-label { font-size: 0.85rem; color: var(--g-mid); margin-bottom: 8px; display: block; }
 
-    /* ══════════════════════════════════════
-       화면 1: 가족 코드 입력
-    ══════════════════════════════════════ */
-    #screen-code {
-      align-items: center; justify-content: center;
-      padding: 40px 24px; text-align: center; gap: 0;
-    }
-    .welcome-icon { font-size: 5rem; margin-bottom: 16px; }
-    .welcome-title { font-size: 2rem; color: var(--g-primary); margin-bottom: 8px; }
-    .welcome-sub { font-size: 0.9rem; color: var(--g-mid); margin-bottom: 40px; line-height: 1.6; }
-    .code-box { width: 100%; max-width: 340px; }
-    .code-box .input-field { text-align: center; font-size: 1.3rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
-
-    /* ══════════════════════════════════════
-       화면 2: 홈
-    ══════════════════════════════════════ */
+    /* ── 홈 ── */
     #screen-home { padding-bottom: 80px; }
-
-    .stats-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-      margin: 16px 16px 0;
-    }
-    .stat-card {
-      background: var(--white); border-radius: 16px; padding: 14px 10px;
-      text-align: center; box-shadow: 0 2px 12px var(--shadow);
-    }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 16px 0; }
+    .stat-card { background: var(--white); border-radius: 16px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 12px var(--shadow); }
     .stat-card .num { font-size: 1.5rem; color: var(--g-primary); }
     .stat-card .lbl { font-size: 0.72rem; color: var(--g-mid); margin-top: 2px; }
-
-    .section-title {
-      font-size: 0.9rem; color: var(--g-mid); margin: 20px 16px 10px;
-    }
-
-    .record-item {
-      background: var(--white); border-radius: 16px; padding: 14px 16px;
-      margin: 0 16px 10px; box-shadow: 0 2px 10px var(--shadow);
-      display: flex; align-items: center; gap: 12px; cursor: pointer;
-      transition: transform 0.15s;
-    }
+    .section-title { font-size: 0.9rem; color: var(--g-mid); margin: 20px 16px 10px; }
+    .record-item { background: var(--white); border-radius: 16px; padding: 14px 16px; margin: 0 16px 10px; box-shadow: 0 2px 10px var(--shadow); display: flex; align-items: center; gap: 12px; cursor: pointer; transition: transform 0.15s; }
     .record-item:active { transform: scale(0.98); }
-    .record-thumb {
-      width: 60px; height: 60px; border-radius: 12px; object-fit: cover;
-      background: var(--g-card); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem;
-    }
-    .record-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+    .record-thumb { width: 60px; height: 60px; border-radius: 12px; background: var(--g-card); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; overflow: hidden; }
+    .record-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .record-info { flex: 1; min-width: 0; }
     .record-mountain { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .record-meta { font-size: 0.78rem; color: var(--g-mid); margin-top: 3px; }
-    .record-alt { font-size: 0.9rem; color: var(--g-primary); font-weight: bold; }
-
+    .record-alt { font-size: 0.9rem; color: var(--g-primary); font-weight: bold; flex-shrink: 0; }
+    .record-badge { font-size: 0.7rem; background: var(--g-card); color: var(--g-mid); border-radius: 8px; padding: 2px 7px; margin-left: 6px; }
     .empty-state { text-align: center; padding: 40px 20px; color: var(--g-mid); }
     .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-
-    .fab {
-      position: fixed; bottom: 24px; right: 24px;
-      width: 60px; height: 60px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--g-primary), var(--g-mid));
-      border: none; color: var(--white); font-size: 2rem;
-      cursor: pointer; box-shadow: 0 6px 20px var(--shadow);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.15s;
-    }
+    .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); border: none; color: var(--white); font-size: 2rem; cursor: pointer; box-shadow: 0 6px 20px var(--shadow); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
     .fab:active { transform: scale(0.92); }
 
-    /* ══════════════════════════════════════
-       화면 3: 등산 시작
-    ══════════════════════════════════════ */
-    #screen-start .content { padding: 24px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
-    .recent-mountains { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-    .mountain-chip {
-      background: var(--g-card); border: 1.5px solid var(--g-pale);
-      border-radius: 20px; padding: 6px 14px; font-size: 0.85rem;
-      color: var(--g-primary); cursor: pointer; transition: all 0.15s;
+    /* ── 새 등산 / 산 검색 ── */
+    #screen-start .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+    .mode-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mode-tab {
+      background: var(--g-bg); border: 2px solid var(--g-pale); border-radius: 14px;
+      padding: 14px 10px; color: var(--g-mid); font-family: 'Jua', sans-serif;
+      font-size: 0.9rem; text-align: center; cursor: pointer; transition: all 0.2s;
     }
+    .mode-tab.active { border-color: var(--g-primary); background: var(--white); color: var(--g-primary); }
+    .mode-tab .t-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+
+    .search-row { display: flex; gap: 8px; }
+    .search-row .input-field { flex: 1; }
+    .search-btn {
+      background: var(--g-primary); border: none; border-radius: 14px; padding: 0 18px;
+      color: var(--white); font-family: 'Jua', sans-serif; font-size: 0.9rem; cursor: pointer; white-space: nowrap;
+    }
+
+    .search-results {
+      background: var(--white); border: 2px solid var(--g-pale); border-radius: 14px;
+      overflow: hidden; max-height: 220px; overflow-y: auto;
+    }
+    .search-item {
+      padding: 12px 16px; border-bottom: 1px solid var(--g-bg); cursor: pointer;
+      transition: background 0.15s;
+    }
+    .search-item:last-child { border-bottom: none; }
+    .search-item:active { background: var(--g-bg); }
+    .search-item .s-name { font-size: 0.95rem; color: var(--g-dark); }
+    .search-item .s-addr { font-size: 0.75rem; color: var(--g-mid); margin-top: 2px; }
+    .search-empty { padding: 20px; text-align: center; color: var(--g-mid); font-size: 0.9rem; }
+
+    .selected-badge {
+      background: var(--g-card); border: 1.5px solid var(--g-pale); border-radius: 12px;
+      padding: 10px 14px; font-size: 0.95rem; color: var(--g-primary);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .selected-badge .clear-btn { margin-left: auto; background: none; border: none; color: var(--g-mid); cursor: pointer; font-size: 1rem; }
+
+    .recent-mountains { display: flex; flex-wrap: wrap; gap: 8px; }
+    .mountain-chip { background: var(--g-card); border: 1.5px solid var(--g-pale); border-radius: 20px; padding: 6px 14px; font-size: 0.85rem; color: var(--g-primary); cursor: pointer; }
     .mountain-chip:active { background: var(--g-pale); }
 
-    /* ══════════════════════════════════════
-       화면 4: 등산 중
-    ══════════════════════════════════════ */
+    /* ── 등산 중 ── */
     #screen-hiking .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
-
-    .hiking-mountain {
-      text-align: center; font-size: 1.4rem; color: var(--g-primary);
-      padding: 0 16px;
-    }
-
-    .timer-display {
-      text-align: center; font-size: 3.5rem; letter-spacing: 2px;
-      color: var(--g-dark); background: var(--white);
-      border-radius: 20px; padding: 20px;
-      box-shadow: 0 4px 20px var(--shadow);
-    }
+    .timer-display { text-align: center; font-size: 3.5rem; letter-spacing: 2px; color: var(--g-dark); background: var(--white); border-radius: 20px; padding: 20px; box-shadow: 0 4px 20px var(--shadow); }
     .timer-label { font-size: 0.8rem; color: var(--g-mid); margin-top: 4px; }
-
+    .gps-status { text-align: center; font-size: 0.82rem; padding: 8px 16px; border-radius: 10px; background: var(--g-card); color: var(--g-mid); }
+    .gps-status.searching { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
     .alt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .alt-card {
-      background: var(--white); border-radius: 18px; padding: 18px 14px;
-      text-align: center; box-shadow: 0 4px 16px var(--shadow);
-    }
+    .alt-card { background: var(--white); border-radius: 18px; padding: 18px 14px; text-align: center; box-shadow: 0 4px 16px var(--shadow); }
     .alt-card .alt-num { font-size: 2.2rem; color: var(--g-primary); line-height: 1.1; }
     .alt-card .alt-unit { font-size: 0.85rem; color: var(--g-mid); }
     .alt-card .alt-label { font-size: 0.78rem; color: var(--g-light); margin-bottom: 6px; }
     .alt-accuracy { font-size: 0.7rem; color: #aaa; margin-top: 4px; }
 
-    .gps-status {
-      text-align: center; font-size: 0.82rem; padding: 8px 16px;
-      border-radius: 10px; background: var(--g-card); color: var(--g-mid);
-    }
-    .gps-status.searching { animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
-
-    /* ── 사진 미리보기 ── */
-    .photo-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-      margin-top: 4px;
-    }
-    .photo-thumb {
-      aspect-ratio: 1; border-radius: 12px; object-fit: cover;
-      width: 100%; background: var(--g-card); position: relative;
-    }
+    /* ── 사진 ── */
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; }
+    .photo-thumb { aspect-ratio: 1; border-radius: 12px; object-fit: cover; width: 100%; background: var(--g-card); }
     .photo-thumb-wrap { position: relative; }
-    .photo-del {
-      position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.55);
-      border: none; color: white; border-radius: 50%; width: 22px; height: 22px;
-      font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    .add-photo-btn {
-      aspect-ratio: 1; border-radius: 12px; border: 2px dashed var(--g-pale);
-      background: var(--g-bg); display: flex; flex-direction: column;
-      align-items: center; justify-content: center; cursor: pointer;
-      color: var(--g-mid); font-size: 0.75rem; gap: 4px;
-    }
+    .photo-del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.55); border: none; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .add-photo-btn { aspect-ratio: 1; border-radius: 12px; border: 2px dashed var(--g-pale); background: var(--g-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--g-mid); font-size: 0.75rem; gap: 4px; }
     .add-photo-btn .icon { font-size: 1.6rem; }
 
-    /* ══════════════════════════════════════
-       화면 5: 등산 완료
-    ══════════════════════════════════════ */
+    /* ── 완료 / 저장 ── */
     #screen-finish .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
-
-    .summary-card {
-      background: linear-gradient(135deg, var(--g-primary), var(--g-mid));
-      color: var(--white); border-radius: 20px; padding: 24px 20px;
-      text-align: center;
-    }
+    .summary-card { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); border-radius: 20px; padding: 24px 20px; text-align: center; }
     .summary-mountain { font-size: 1.4rem; margin-bottom: 16px; }
     .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .summary-item .val { font-size: 1.3rem; }
     .summary-item .key { font-size: 0.72rem; opacity: 0.85; margin-top: 2px; }
-
-    .memo-area {
-      width: 100%; border: 2px solid var(--g-pale); border-radius: 14px;
-      padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.95rem;
-      color: var(--g-dark); background: var(--white); outline: none;
-      resize: none; min-height: 90px;
-    }
+    .memo-area { width: 100%; border: 2px solid var(--g-pale); border-radius: 14px; padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.95rem; color: var(--g-dark); background: var(--white); outline: none; resize: none; min-height: 90px; }
     .memo-area:focus { border-color: var(--g-primary); }
 
-    /* ══════════════════════════════════════
-       화면 6: 기록 상세
-    ══════════════════════════════════════ */
-    #screen-detail .content { padding: 0 0 30px; flex: 1; }
+    /* ── 지난 기록 ── */
+    #screen-past .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; }
+    .mountain-name-badge { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); border-radius: 14px; padding: 12px 16px; font-size: 1.1rem; text-align: center; }
+    .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .time-unit-wrap { display: flex; align-items: center; gap: 8px; }
+    .time-unit-wrap .input-field { flex: 1; text-align: center; }
+    .time-unit-label { font-size: 0.9rem; color: var(--g-mid); white-space: nowrap; }
 
-    .detail-hero {
-      background: linear-gradient(135deg, var(--g-primary), var(--g-mid));
-      color: var(--white); padding: 24px 20px 28px; text-align: center;
-    }
+    /* ── 상세 ── */
+    #screen-detail .content { flex: 1; padding-bottom: 30px; }
+    .detail-hero { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); padding: 24px 20px 28px; text-align: center; }
     .detail-mountain { font-size: 1.6rem; margin-bottom: 6px; }
     .detail-date { font-size: 0.9rem; opacity: 0.85; }
-    .detail-stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      background: var(--white); margin: -16px 20px 0;
-      border-radius: 16px; box-shadow: 0 4px 20px var(--shadow);
-      overflow: hidden;
-    }
-    .detail-stat {
-      padding: 16px 8px; text-align: center;
-      border-right: 1px solid var(--g-bg);
-    }
+    .detail-type-badge { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; margin-top: 8px; }
+    .detail-stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--white); margin: -16px 20px 0; border-radius: 16px; box-shadow: 0 4px 20px var(--shadow); overflow: hidden; }
+    .detail-stat { padding: 16px 8px; text-align: center; border-right: 1px solid var(--g-bg); }
     .detail-stat:last-child { border-right: none; }
     .detail-stat .val { font-size: 1.2rem; color: var(--g-primary); }
     .detail-stat .key { font-size: 0.72rem; color: var(--g-mid); margin-top: 2px; }
-
     .detail-section { padding: 20px 20px 0; }
     .detail-section-title { font-size: 0.85rem; color: var(--g-mid); margin-bottom: 12px; }
+    .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .gallery-img { aspect-ratio: 1; object-fit: cover; width: 100%; cursor: pointer; }
+    .memo-display { background: var(--g-bg); border-radius: 12px; padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem; line-height: 1.6; color: var(--g-dark); white-space: pre-wrap; }
 
-    .photo-gallery {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
-      margin: 0 0 4px;
-    }
-    .gallery-img {
-      aspect-ratio: 1; object-fit: cover; width: 100%; cursor: pointer;
-      transition: opacity 0.15s;
-    }
-    .gallery-img:active { opacity: 0.8; }
-
-    .memo-display {
-      background: var(--g-bg); border-radius: 12px; padding: 14px 16px;
-      font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem;
-      line-height: 1.6; color: var(--g-dark); white-space: pre-wrap;
-    }
-
-    /* ── 로딩 오버레이 ── */
-    .loading-overlay {
-      position: fixed; inset: 0; background: rgba(27,67,50,0.7);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 999; color: white; gap: 16px; font-size: 1rem;
-    }
-    .spinner {
-      width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3);
-      border-top-color: white; border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    /* ── 공통 ── */
+    .loading-overlay { position: fixed; inset: 0; background: rgba(27,67,50,0.7); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; color: white; gap: 16px; font-size: 1rem; }
+    .spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── 라이트박스 ── */
-    .lightbox {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 998; padding: 20px;
-    }
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
     .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
-    .lightbox-close {
-      position: absolute; top: 16px; right: 16px;
-      background: rgba(255,255,255,0.2); border: none; color: white;
-      border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-
+    .lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .hidden { display: none !important; }
+
+    /* ── 가족코드 ── */
+    #screen-code { align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
+    .welcome-icon { font-size: 5rem; margin-bottom: 16px; }
+    .welcome-title { font-size: 2rem; color: var(--g-primary); margin-bottom: 8px; }
+    .welcome-sub { font-size: 0.9rem; color: var(--g-mid); margin-bottom: 40px; line-height: 1.6; }
+    .code-box { width: 100%; max-width: 340px; }
+    .code-box .input-field { text-align: center; font-size: 1.3rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     화면 1: 가족 코드 입력
-════════════════════════════════════════ -->
+<!-- ════ 화면 1: 가족 코드 ════ -->
 <div id="screen-code" class="screen active">
   <div class="welcome-icon">🏔️</div>
   <div class="welcome-title">산 넘어 산</div>
@@ -347,62 +220,77 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     화면 2: 홈
-════════════════════════════════════════ -->
+<!-- ════ 화면 2: 홈 ════ -->
 <div id="screen-home" class="screen">
   <div class="top-bar">
     <h2>🏔️ 산 넘어 산</h2>
     <button class="icon-btn" onclick="showCodeScreen()">⚙️ 코드</button>
   </div>
-
   <div class="stats-grid">
-    <div class="stat-card">
-      <div class="num" id="stat-count">0</div>
-      <div class="lbl">총 등산</div>
-    </div>
-    <div class="stat-card">
-      <div class="num" id="stat-total-alt">0</div>
-      <div class="lbl">누적 고도(m)</div>
-    </div>
-    <div class="stat-card">
-      <div class="num" id="stat-highest" style="font-size:0.95rem">-</div>
-      <div class="lbl">최고봉</div>
-    </div>
+    <div class="stat-card"><div class="num" id="stat-count">0</div><div class="lbl">총 등산</div></div>
+    <div class="stat-card"><div class="num" id="stat-total-alt">0</div><div class="lbl">누적 고도(m)</div></div>
+    <div class="stat-card"><div class="num" id="stat-highest" style="font-size:0.95rem">-</div><div class="lbl">최고봉</div></div>
   </div>
-
   <div class="section-title">📋 등산 기록</div>
   <div id="records-list"></div>
-
   <button class="fab" onclick="showStart()">+</button>
 </div>
 
-<!-- ════════════════════════════════════════
-     화면 3: 등산 시작
-════════════════════════════════════════ -->
+<!-- ════ 화면 3: 새 등산 / 산 검색 ════ -->
 <div id="screen-start" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="showHome()">←</button>
     <h2>새 등산</h2>
   </div>
   <div class="content">
+
+    <!-- 모드 선택 -->
     <div>
-      <label class="input-label">🏔️ 오늘 오를 산</label>
-      <input type="text" id="mountain-input" class="input-field" placeholder="예: 북한산, 설악산..." autocomplete="off">
+      <div class="input-label">기록 방식</div>
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="live" onclick="selectMode('live')">
+          <span class="t-icon">⛰️</span>실시간 등산
+        </button>
+        <button class="mode-tab" data-mode="past" onclick="selectMode('past')">
+          <span class="t-icon">📝</span>지난 기록 입력
+        </button>
+      </div>
     </div>
-    <div id="recent-mountains-wrap">
+
+    <!-- 카카오 산 검색 -->
+    <div>
+      <div class="input-label">🔍 산 이름 검색</div>
+      <div class="search-row">
+        <input type="text" id="mountain-search-input" class="input-field" placeholder="예: 북한산, 설악산..." autocomplete="off"
+          onkeyup="if(event.key==='Enter') searchMountain()">
+        <button class="search-btn" onclick="searchMountain()">검색</button>
+      </div>
+      <div class="search-results hidden" id="search-results"></div>
+    </div>
+
+    <!-- 선택된 산 -->
+    <div id="selected-mountain-wrap" class="hidden">
+      <div class="input-label">선택된 산</div>
+      <div class="selected-badge">
+        <span>🏔️</span>
+        <span id="selected-mountain-name"></span>
+        <button class="clear-btn" onclick="clearSelectedMountain()">✕</button>
+      </div>
+    </div>
+
+    <!-- 최근 등산한 산 -->
+    <div id="recent-mountains-wrap" class="hidden">
       <div class="input-label">최근 등산한 산</div>
       <div class="recent-mountains" id="recent-mountains"></div>
     </div>
-    <div style="margin-top:auto; padding-top:20px">
-      <button class="btn-primary" onclick="beginHike()">⛰️ 등산 시작</button>
+
+    <div style="margin-top:auto; padding-top:8px">
+      <button class="btn-primary" id="start-action-btn" onclick="proceedFromSearch()">⛰️ 등산 시작</button>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     화면 4: 등산 중
-════════════════════════════════════════ -->
+<!-- ════ 화면 4: 등산 중 ════ -->
 <div id="screen-hiking" class="screen">
   <div class="top-bar" style="background:#1B4332">
     <h2 id="hiking-mountain-title">등산 중</h2>
@@ -412,9 +300,7 @@
       <div id="timer">00:00:00</div>
       <div class="timer-label">경과 시간</div>
     </div>
-
     <div class="gps-status searching" id="gps-status">📡 GPS 고도 연결 중...</div>
-
     <div class="alt-grid">
       <div class="alt-card">
         <div class="alt-label">현재 고도</div>
@@ -428,76 +314,108 @@
         <div class="alt-unit">m</div>
       </div>
     </div>
-
     <div>
       <div class="input-label">📸 등산 중 사진</div>
       <div class="photo-grid" id="hiking-photos">
         <div class="add-photo-btn" onclick="document.getElementById('photo-input-hike').click()">
-          <span class="icon">📷</span>
-          <span>사진 추가</span>
+          <span class="icon">📷</span><span>사진 추가</span>
         </div>
       </div>
       <input type="file" id="photo-input-hike" accept="image/*" multiple hidden onchange="addHikePhotos(this)">
     </div>
-
     <div style="margin-top:auto; padding-top:8px">
       <button class="btn-danger" onclick="confirmFinish()">🏁 등산 완료</button>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     화면 5: 등산 완료 / 저장
-════════════════════════════════════════ -->
+<!-- ════ 화면 5: 등산 완료 / 저장 ════ -->
 <div id="screen-finish" class="screen">
-  <div class="top-bar">
-    <h2>등산 완료! 🎉</h2>
-  </div>
+  <div class="top-bar"><h2>등산 완료! 🎉</h2></div>
   <div class="content">
     <div class="summary-card">
       <div class="summary-mountain" id="finish-mountain">-</div>
       <div class="summary-grid">
-        <div class="summary-item">
-          <div class="val" id="finish-time">-</div>
-          <div class="key">소요 시간</div>
-        </div>
-        <div class="summary-item">
-          <div class="val" id="finish-alt">-</div>
-          <div class="key">최고 고도</div>
-        </div>
-        <div class="summary-item">
-          <div class="val" id="finish-date">-</div>
-          <div class="key">날짜</div>
-        </div>
+        <div class="summary-item"><div class="val" id="finish-time">-</div><div class="key">소요 시간</div></div>
+        <div class="summary-item"><div class="val" id="finish-alt">-</div><div class="key">최고 고도</div></div>
+        <div class="summary-item"><div class="val" id="finish-date">-</div><div class="key">날짜</div></div>
       </div>
     </div>
-
     <div>
-      <div class="input-label">📸 사진 (등산 중 추가한 사진 포함)</div>
+      <div class="input-label">📸 사진</div>
       <div class="photo-grid" id="finish-photos">
         <div class="add-photo-btn" onclick="document.getElementById('photo-input-finish').click()">
-          <span class="icon">📷</span>
-          <span>사진 추가</span>
+          <span class="icon">📷</span><span>사진 추가</span>
         </div>
       </div>
       <input type="file" id="photo-input-finish" accept="image/*" multiple hidden onchange="addFinishPhotos(this)">
     </div>
-
     <div>
       <label class="input-label">📝 메모</label>
       <textarea class="memo-area" id="memo-input" placeholder="오늘 등산 어땠나요? (선택사항)"></textarea>
     </div>
-
     <div style="padding-top:4px">
       <button class="btn-primary" onclick="saveHike()">💾 기록 저장</button>
-      <button class="btn-secondary" onclick="cancelSave()">취소 (기록 삭제)</button>
+      <button class="btn-secondary" onclick="cancelSave()">취소</button>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     화면 6: 기록 상세
-════════════════════════════════════════ -->
+<!-- ════ 화면 6: 지난 기록 입력 ════ -->
+<div id="screen-past" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="showScreen('start')">←</button>
+    <h2>지난 기록 입력</h2>
+  </div>
+  <div class="content">
+    <div class="mountain-name-badge" id="past-mountain-badge">🏔️ -</div>
+
+    <div>
+      <label class="input-label">📅 등산 날짜</label>
+      <input type="date" id="past-date" class="input-field">
+    </div>
+
+    <div>
+      <label class="input-label">⏱️ 소요 시간</label>
+      <div class="time-row">
+        <div class="time-unit-wrap">
+          <input type="number" id="past-hours" class="input-field" min="0" max="24" placeholder="0">
+          <span class="time-unit-label">시간</span>
+        </div>
+        <div class="time-unit-wrap">
+          <input type="number" id="past-minutes" class="input-field" min="0" max="59" placeholder="0">
+          <span class="time-unit-label">분</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label class="input-label">🏔️ 최고 고도 (m, 선택사항)</label>
+      <input type="number" id="past-altitude" class="input-field" placeholder="예: 836">
+    </div>
+
+    <div>
+      <label class="input-label">📸 사진</label>
+      <div class="photo-grid" id="past-photos">
+        <div class="add-photo-btn" onclick="document.getElementById('photo-input-past').click()">
+          <span class="icon">📷</span><span>사진 추가</span>
+        </div>
+      </div>
+      <input type="file" id="photo-input-past" accept="image/*" multiple hidden onchange="addPastPhotos(this)">
+    </div>
+
+    <div>
+      <label class="input-label">📝 메모</label>
+      <textarea class="memo-area" id="past-memo" placeholder="이날 등산 어땠나요? (선택사항)"></textarea>
+    </div>
+
+    <div style="padding-top:4px">
+      <button class="btn-primary" onclick="savePastHike()">💾 기록 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ 화면 7: 기록 상세 ════ -->
 <div id="screen-detail" class="screen">
   <div class="top-bar">
     <button class="back-btn" onclick="showHome()">←</button>
@@ -508,27 +426,17 @@
     <div class="detail-hero">
       <div class="detail-mountain" id="detail-mountain">-</div>
       <div class="detail-date" id="detail-date">-</div>
+      <div class="detail-type-badge" id="detail-type-badge"></div>
     </div>
     <div class="detail-stats">
-      <div class="detail-stat">
-        <div class="val" id="detail-time">-</div>
-        <div class="key">소요 시간</div>
-      </div>
-      <div class="detail-stat">
-        <div class="val" id="detail-alt">-</div>
-        <div class="key">최고 고도</div>
-      </div>
-      <div class="detail-stat">
-        <div class="val" id="detail-photos-count">-</div>
-        <div class="key">사진</div>
-      </div>
+      <div class="detail-stat"><div class="val" id="detail-time">-</div><div class="key">소요 시간</div></div>
+      <div class="detail-stat"><div class="val" id="detail-alt">-</div><div class="key">최고 고도</div></div>
+      <div class="detail-stat"><div class="val" id="detail-photos-count">-</div><div class="key">사진</div></div>
     </div>
-
     <div class="detail-section" id="detail-photos-section">
       <div class="detail-section-title">📸 사진</div>
       <div class="photo-gallery" id="detail-gallery"></div>
     </div>
-
     <div class="detail-section" id="detail-memo-section">
       <div class="detail-section-title">📝 메모</div>
       <div class="memo-display" id="detail-memo"></div>
@@ -544,42 +452,46 @@
 
 <!-- 라이트박스 -->
 <div class="lightbox hidden" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 
-<!-- Firebase SDKs -->
+<!-- Kakao Maps SDK -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5ed844650432c56d73361aec1d06927&libraries=services&autoload=false"></script>
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script>
-/* ════════════════════════════════════
-   초기화
-════════════════════════════════════ */
+/* ════ 초기화 ════ */
 firebase.initializeApp(firebaseConfig);
 const db      = firebase.firestore();
 const storage = firebase.storage();
 
-let familyCode = localStorage.getItem('familyCode') || '';
-let currentHike = null;  // 진행 중 등산 데이터
+let familyCode   = localStorage.getItem('familyCode') || '';
+let hikeMode     = 'live';          // 'live' | 'past'
+let selectedMtn  = { name: '', address: '' };
+let currentHike  = null;
 let timerInterval = null;
-let watchId = null;
-let hikePhotos = [];     // File 객체 배열
-let currentRecordId = null; // 상세보기용
+let watchId      = null;
+let hikePhotos   = [];
+let currentRecordId = null;
+let ps           = null;            // Kakao Places
 
-/* ════════════════════════════════════
-   화면 전환
-════════════════════════════════════ */
+// Kakao SDK 비동기 로드
+kakao.maps.load(() => {
+  ps = new kakao.maps.services.Places();
+});
+
+/* ════ 화면 전환 ════ */
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   window.scrollTo(0, 0);
 }
 
-/* ════════════════════════════════════
-   화면 1: 가족 코드
-════════════════════════════════════ */
+/* ════ 가족 코드 ════ */
 function enterCode() {
   const val = document.getElementById('code-input').value.trim().toUpperCase();
   if (!val) { alert('가족 코드를 입력해주세요.'); return; }
@@ -587,292 +499,324 @@ function enterCode() {
   localStorage.setItem('familyCode', familyCode);
   loadHome();
 }
-
 function showCodeScreen() {
   document.getElementById('code-input').value = familyCode;
   showScreen('code');
 }
+document.getElementById('code-input').addEventListener('keyup', e => { if (e.key === 'Enter') enterCode(); });
 
-document.getElementById('code-input').addEventListener('keyup', e => {
-  if (e.key === 'Enter') enterCode();
-});
-
-/* ════════════════════════════════════
-   화면 2: 홈
-════════════════════════════════════ */
+/* ════ 홈 ════ */
 async function loadHome() {
   showScreen('home');
   const list = document.getElementById('records-list');
   list.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><div>불러오는 중...</div></div>';
-
   try {
-    const snap = await db.collection('hikes')
-      .doc(familyCode).collection('records')
-      .orderBy('createdAt', 'desc')
-      .limit(50).get();
-
+    const snap = await db.collection('hikes').doc(familyCode).collection('records')
+      .orderBy('createdAt', 'desc').limit(50).get();
     const records = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderStats(records);
     renderRecordList(records);
     renderRecentMountains(records);
   } catch (e) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><div>불러오기 실패<br>' + e.message + '</div></div>';
+    list.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><div>불러오기 실패<br>${e.message}</div></div>`;
   }
 }
 
 function renderStats(records) {
-  const count = records.length;
-  const totalAlt = records.reduce((s, r) => s + (r.maxAltitude || 0), 0);
-  const highest = records.reduce((best, r) => {
-    if (!best || (r.maxAltitude || 0) > (best.maxAltitude || 0)) return r;
-    return best;
-  }, null);
-
-  document.getElementById('stat-count').textContent = count;
-  document.getElementById('stat-total-alt').textContent = totalAlt.toLocaleString();
+  document.getElementById('stat-count').textContent = records.length;
+  const total = records.reduce((s, r) => s + (r.maxAltitude || 0), 0);
+  document.getElementById('stat-total-alt').textContent = total.toLocaleString();
+  const highest = records.reduce((b, r) => (!b || (r.maxAltitude||0) > (b.maxAltitude||0)) ? r : b, null);
   document.getElementById('stat-highest').textContent = highest ? highest.mountain : '-';
 }
 
 function renderRecordList(records) {
   const list = document.getElementById('records-list');
-  if (records.length === 0) {
+  if (!records.length) {
     list.innerHTML = '<div class="empty-state"><div class="icon">🌱</div><div>첫 등산 기록을 남겨보세요!</div></div>';
     return;
   }
   list.innerHTML = records.map(r => {
-    const thumb = r.photos && r.photos.length > 0
+    const thumb = r.photos && r.photos.length
       ? `<div class="record-thumb"><img src="${r.photos[0]}" alt="" loading="lazy"></div>`
       : `<div class="record-thumb">🏔️</div>`;
-    const altText = r.maxAltitude ? r.maxAltitude + 'm' : '고도 미기록';
+    const altText = r.maxAltitude ? r.maxAltitude + 'm' : '-';
     const dur = r.duration ? formatDuration(r.duration) : '-';
-    return `
-      <div class="record-item" onclick="showDetail('${r.id}')">
-        ${thumb}
-        <div class="record-info">
-          <div class="record-mountain">🏔️ ${r.mountain}</div>
-          <div class="record-meta">${r.date} · ${dur}</div>
-        </div>
-        <div class="record-alt">${altText}</div>
-      </div>`;
+    const badge = r.isPastRecord ? '<span class="record-badge">지난기록</span>' : '';
+    return `<div class="record-item" onclick="showDetail('${r.id}')">
+      ${thumb}
+      <div class="record-info">
+        <div class="record-mountain">🏔️ ${r.mountain}${badge}</div>
+        <div class="record-meta">${r.date} · ${dur}</div>
+      </div>
+      <div class="record-alt">${altText}</div>
+    </div>`;
   }).join('');
 }
 
 function renderRecentMountains(records) {
-  const seen = new Set();
-  const recent = [];
+  const seen = new Set(), recent = [];
   for (const r of records) {
     if (!seen.has(r.mountain)) { seen.add(r.mountain); recent.push(r.mountain); }
     if (recent.length >= 5) break;
   }
   const wrap = document.getElementById('recent-mountains');
-  if (wrap) {
-    wrap.innerHTML = recent.map(m =>
-      `<div class="mountain-chip" onclick="selectMountain('${m}')">${m}</div>`
-    ).join('');
-    document.getElementById('recent-mountains-wrap').classList.toggle('hidden', recent.length === 0);
+  if (wrap) wrap.innerHTML = recent.map(m => `<div class="mountain-chip" onclick="selectRecentMountain('${m}')">${m}</div>`).join('');
+  document.getElementById('recent-mountains-wrap').classList.toggle('hidden', !recent.length);
+}
+
+/* ════ 새 등산 / 검색 ════ */
+function showStart() {
+  hikePhotos = [];
+  selectedMtn = { name: '', address: '' };
+  document.getElementById('mountain-search-input').value = '';
+  document.getElementById('search-results').innerHTML = '';
+  document.getElementById('search-results').classList.add('hidden');
+  document.getElementById('selected-mountain-wrap').classList.add('hidden');
+  showScreen('start');
+}
+
+function selectMode(mode) {
+  hikeMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+  document.getElementById('start-action-btn').textContent =
+    mode === 'live' ? '⛰️ 등산 시작' : '📝 기록 입력 →';
+}
+
+function searchMountain() {
+  const q = document.getElementById('mountain-search-input').value.trim();
+  if (!q) return;
+  if (!ps) { alert('카카오 검색 서비스 로딩 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+
+  const resultsEl = document.getElementById('search-results');
+  resultsEl.classList.remove('hidden');
+  resultsEl.innerHTML = '<div class="search-empty">검색 중...</div>';
+
+  ps.keywordSearch(q, (results, status) => {
+    if (status === kakao.maps.services.Status.OK) {
+      resultsEl.innerHTML = results.map((r, i) =>
+        `<div class="search-item" onclick="selectSearchResult(${i})">
+          <div class="s-name">${r.place_name}</div>
+          <div class="s-addr">${r.address_name}</div>
+        </div>`
+      ).join('');
+      // 결과를 전역 변수에 저장
+      window._searchResults = results;
+    } else {
+      resultsEl.innerHTML = '<div class="search-empty">검색 결과가 없습니다</div>';
+    }
+  });
+}
+
+function selectSearchResult(idx) {
+  const r = window._searchResults[idx];
+  selectedMtn = { name: r.place_name, address: r.address_name };
+  document.getElementById('mountain-search-input').value = r.place_name;
+  document.getElementById('search-results').classList.add('hidden');
+  document.getElementById('selected-mountain-name').textContent = r.place_name;
+  document.getElementById('selected-mountain-wrap').classList.remove('hidden');
+}
+
+function selectRecentMountain(name) {
+  selectedMtn = { name, address: '' };
+  document.getElementById('mountain-search-input').value = name;
+  document.getElementById('selected-mountain-name').textContent = name;
+  document.getElementById('selected-mountain-wrap').classList.remove('hidden');
+  document.getElementById('search-results').classList.add('hidden');
+}
+
+function clearSelectedMountain() {
+  selectedMtn = { name: '', address: '' };
+  document.getElementById('mountain-search-input').value = '';
+  document.getElementById('selected-mountain-wrap').classList.add('hidden');
+}
+
+function proceedFromSearch() {
+  // 선택된 산이 없으면 입력창 텍스트 사용
+  if (!selectedMtn.name) {
+    const typed = document.getElementById('mountain-search-input').value.trim();
+    if (!typed) { alert('산 이름을 입력하거나 검색해주세요.'); return; }
+    selectedMtn = { name: typed, address: '' };
+  }
+  if (hikeMode === 'live') {
+    beginHike();
+  } else {
+    showPastForm();
   }
 }
 
-/* ════════════════════════════════════
-   화면 3: 등산 시작
-════════════════════════════════════ */
-function showStart() {
-  hikePhotos = [];
-  showScreen('start');
-  document.getElementById('mountain-input').focus();
-}
-
-function selectMountain(name) {
-  document.getElementById('mountain-input').value = name;
-}
-
+/* ════ 실시간 등산 ════ */
 function beginHike() {
-  const mountain = document.getElementById('mountain-input').value.trim();
-  if (!mountain) { alert('산 이름을 입력해주세요.'); return; }
-
-  currentHike = {
-    mountain,
-    startTime: new Date(),
-    endTime: null,
-    duration: 0,
-    maxAlt: null,
-    startAlt: null,
-    currentAlt: null,
-  };
+  currentHike = { mountain: selectedMtn.name, startTime: new Date(), endTime: null, duration: 0, maxAlt: null, startAlt: null, currentAlt: null };
   hikePhotos = [];
-
-  document.getElementById('hiking-mountain-title').textContent = '🏔️ ' + mountain;
+  document.getElementById('hiking-mountain-title').textContent = '🏔️ ' + selectedMtn.name;
   document.getElementById('timer').textContent = '00:00:00';
   document.getElementById('current-alt').textContent = '--';
   document.getElementById('max-alt').textContent = '--';
   document.getElementById('gps-status').textContent = '📡 GPS 고도 연결 중...';
   document.getElementById('gps-status').className = 'gps-status searching';
   renderHikePhotos();
-
   showScreen('hiking');
   startTimer();
   startGPS();
 }
 
-/* ════════════════════════════════════
-   타이머
-════════════════════════════════════ */
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (!currentHike) return;
-    const elapsed = Math.floor((Date.now() - currentHike.startTime.getTime()) / 1000);
-    document.getElementById('timer').textContent = formatDuration(elapsed);
+    const e = Math.floor((Date.now() - currentHike.startTime.getTime()) / 1000);
+    document.getElementById('timer').textContent = formatDurationHMS(e);
   }, 1000);
 }
 
-function stopTimer() {
-  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-}
+function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
 
-/* ════════════════════════════════════
-   GPS 고도
-════════════════════════════════════ */
 function startGPS() {
   if (!navigator.geolocation) {
     document.getElementById('gps-status').textContent = '⚠️ 이 기기는 위치를 지원하지 않습니다';
-    document.getElementById('gps-status').className = 'gps-status';
-    return;
+    document.getElementById('gps-status').className = 'gps-status'; return;
   }
-
-  watchId = navigator.geolocation.watchPosition(
-    pos => {
-      const alt = pos.coords.altitude;
-      const acc = pos.coords.altitudeAccuracy;
-
-      if (alt !== null && alt !== undefined) {
-        const rounded = Math.round(alt);
-        currentHike.currentAlt = rounded;
-        if (currentHike.startAlt === null) currentHike.startAlt = rounded;
-        if (currentHike.maxAlt === null || rounded > currentHike.maxAlt) {
-          currentHike.maxAlt = rounded;
-        }
-        document.getElementById('current-alt').textContent = rounded.toLocaleString();
-        document.getElementById('max-alt').textContent = currentHike.maxAlt.toLocaleString();
-        document.getElementById('alt-accuracy').textContent = acc ? '±' + Math.round(acc) + 'm' : '';
-        document.getElementById('gps-status').textContent = '✅ GPS 고도 연결됨';
-        document.getElementById('gps-status').className = 'gps-status';
-      } else {
-        document.getElementById('gps-status').textContent = '⚠️ 고도 정보를 받을 수 없어요 (위도/경도만 수신 중)';
-        document.getElementById('gps-status').className = 'gps-status';
-      }
-    },
-    err => {
-      const msgs = { 1: '위치 권한을 허용해주세요', 2: 'GPS 신호를 찾을 수 없어요', 3: 'GPS 시간 초과' };
-      document.getElementById('gps-status').textContent = '⚠️ ' + (msgs[err.code] || 'GPS 오류');
+  watchId = navigator.geolocation.watchPosition(pos => {
+    const alt = pos.coords.altitude;
+    const acc = pos.coords.altitudeAccuracy;
+    if (alt !== null && alt !== undefined) {
+      const r = Math.round(alt);
+      currentHike.currentAlt = r;
+      if (currentHike.startAlt === null) currentHike.startAlt = r;
+      if (currentHike.maxAlt === null || r > currentHike.maxAlt) currentHike.maxAlt = r;
+      document.getElementById('current-alt').textContent = r.toLocaleString();
+      document.getElementById('max-alt').textContent = currentHike.maxAlt.toLocaleString();
+      document.getElementById('alt-accuracy').textContent = acc ? '±' + Math.round(acc) + 'm' : '';
+      document.getElementById('gps-status').textContent = '✅ GPS 고도 연결됨';
       document.getElementById('gps-status').className = 'gps-status';
-    },
-    { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
-  );
+    } else {
+      document.getElementById('gps-status').textContent = '⚠️ 고도 정보를 받을 수 없어요';
+      document.getElementById('gps-status').className = 'gps-status';
+    }
+  }, err => {
+    const msgs = { 1:'위치 권한을 허용해주세요', 2:'GPS 신호를 찾을 수 없어요', 3:'GPS 시간 초과' };
+    document.getElementById('gps-status').textContent = '⚠️ ' + (msgs[err.code] || 'GPS 오류');
+    document.getElementById('gps-status').className = 'gps-status';
+  }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
 }
 
-function stopGPS() {
-  if (watchId !== null) {
-    navigator.geolocation.clearWatch(watchId);
-    watchId = null;
-  }
-}
+function stopGPS() { if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; } }
 
-/* ════════════════════════════════════
-   사진 관리
-════════════════════════════════════ */
-function addHikePhotos(input) {
-  for (const file of input.files) hikePhotos.push(file);
-  renderHikePhotos();
-  input.value = '';
-}
-
-function addFinishPhotos(input) {
-  for (const file of input.files) hikePhotos.push(file);
-  renderFinishPhotos();
-  input.value = '';
-}
-
-function renderHikePhotos() {
-  const grid = document.getElementById('hiking-photos');
-  grid.innerHTML = renderPhotoGrid(hikePhotos, 'hiking') +
-    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-hike').click()">
-      <span class="icon">📷</span><span>사진 추가</span>
-    </div>`;
-}
-
-function renderFinishPhotos() {
-  const grid = document.getElementById('finish-photos');
-  grid.innerHTML = renderPhotoGrid(hikePhotos, 'finish') +
-    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-finish').click()">
-      <span class="icon">📷</span><span>사진 추가</span>
-    </div>`;
-}
-
-function renderPhotoGrid(photos, prefix) {
-  return photos.map((f, i) => {
-    const url = URL.createObjectURL(f);
-    return `<div class="photo-thumb-wrap">
-      <img class="photo-thumb" src="${url}" alt="">
-      <button class="photo-del" onclick="removePhoto(${i},'${prefix}')">✕</button>
-    </div>`;
-  }).join('');
-}
-
-function removePhoto(idx, prefix) {
-  hikePhotos.splice(idx, 1);
-  if (prefix === 'hiking') renderHikePhotos();
-  else renderFinishPhotos();
-}
-
-/* ════════════════════════════════════
-   등산 완료
-════════════════════════════════════ */
 function confirmFinish() {
   if (!confirm('등산을 완료할까요?')) return;
-  finishHike();
-}
-
-function finishHike() {
-  stopTimer();
-  stopGPS();
-
+  stopTimer(); stopGPS();
   currentHike.endTime = new Date();
   currentHike.duration = Math.floor((currentHike.endTime - currentHike.startTime) / 1000);
-
   document.getElementById('finish-mountain').textContent = '🏔️ ' + currentHike.mountain;
   document.getElementById('finish-time').textContent = formatDuration(currentHike.duration);
   document.getElementById('finish-alt').textContent = currentHike.maxAlt !== null ? currentHike.maxAlt + 'm' : '-';
   document.getElementById('finish-date').textContent = formatDate(currentHike.startTime);
   document.getElementById('memo-input').value = '';
   renderFinishPhotos();
-
   showScreen('finish');
 }
 
 function cancelSave() {
   if (!confirm('기록을 삭제할까요?')) return;
-  currentHike = null;
-  hikePhotos = [];
-  loadHome();
+  currentHike = null; hikePhotos = []; loadHome();
 }
 
-/* ════════════════════════════════════
-   기록 저장 (Firebase)
-════════════════════════════════════ */
+/* ════ 지난 기록 ════ */
+function showPastForm() {
+  document.getElementById('past-mountain-badge').textContent = '🏔️ ' + selectedMtn.name;
+  document.getElementById('past-date').value = formatDate(new Date());
+  document.getElementById('past-hours').value = '';
+  document.getElementById('past-minutes').value = '';
+  document.getElementById('past-altitude').value = '';
+  document.getElementById('past-memo').value = '';
+  hikePhotos = [];
+  renderPastPhotos();
+  showScreen('past');
+}
+
+function addPastPhotos(input) {
+  for (const f of input.files) hikePhotos.push(f);
+  renderPastPhotos(); input.value = '';
+}
+
+function renderPastPhotos() {
+  const grid = document.getElementById('past-photos');
+  grid.innerHTML = renderPhotoGrid(hikePhotos, 'past') +
+    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-past').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+}
+
+async function savePastHike() {
+  const date = document.getElementById('past-date').value;
+  if (!date) { alert('날짜를 입력해주세요.'); return; }
+  const hours   = parseInt(document.getElementById('past-hours').value) || 0;
+  const minutes = parseInt(document.getElementById('past-minutes').value) || 0;
+  const duration = hours * 3600 + minutes * 60;
+  const altitude = parseInt(document.getElementById('past-altitude').value) || null;
+  const memo = document.getElementById('past-memo').value.trim();
+
+  showLoading('사진 업로드 중...');
+  try {
+    const photoURLs = await uploadPhotos();
+    setLoadingMsg('기록 저장 중...');
+    await db.collection('hikes').doc(familyCode).collection('records').add({
+      mountain: selectedMtn.name,
+      date, duration, maxAltitude: altitude,
+      photos: photoURLs, memo,
+      isPastRecord: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    hideLoading();
+    hikePhotos = [];
+    loadHome();
+  } catch (e) { hideLoading(); alert('저장 실패: ' + e.message); }
+}
+
+/* ════ 사진 ════ */
+function addHikePhotos(input) { for (const f of input.files) hikePhotos.push(f); renderHikePhotos(); input.value = ''; }
+function addFinishPhotos(input) { for (const f of input.files) hikePhotos.push(f); renderFinishPhotos(); input.value = ''; }
+
+function renderHikePhotos() {
+  document.getElementById('hiking-photos').innerHTML =
+    renderPhotoGrid(hikePhotos, 'hiking') +
+    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-hike').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+}
+function renderFinishPhotos() {
+  document.getElementById('finish-photos').innerHTML =
+    renderPhotoGrid(hikePhotos, 'finish') +
+    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-finish').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+}
+function renderPhotoGrid(photos, prefix) {
+  return photos.map((f, i) => {
+    const url = URL.createObjectURL(f);
+    return `<div class="photo-thumb-wrap"><img class="photo-thumb" src="${url}" alt=""><button class="photo-del" onclick="removePhoto(${i},'${prefix}')">✕</button></div>`;
+  }).join('');
+}
+function removePhoto(idx, prefix) {
+  hikePhotos.splice(idx, 1);
+  if (prefix === 'hiking') renderHikePhotos();
+  else if (prefix === 'finish') renderFinishPhotos();
+  else renderPastPhotos();
+}
+
+async function uploadPhotos() {
+  const urls = [];
+  for (let i = 0; i < hikePhotos.length; i++) {
+    const f = hikePhotos[i];
+    setLoadingMsg(`사진 업로드 중... (${i+1}/${hikePhotos.length})`);
+    const ref = storage.ref(`${familyCode}/${Date.now()}_${i}_${f.name}`);
+    await ref.put(f);
+    urls.push(await ref.getDownloadURL());
+  }
+  return urls;
+}
+
+/* ════ 실시간 저장 ════ */
 async function saveHike() {
   showLoading('사진 업로드 중...');
   try {
-    const photoURLs = [];
-    for (let i = 0; i < hikePhotos.length; i++) {
-      const file = hikePhotos[i];
-      setLoadingMsg(`사진 업로드 중... (${i+1}/${hikePhotos.length})`);
-      const ref = storage.ref(`${familyCode}/${Date.now()}_${i}_${file.name}`);
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      photoURLs.push(url);
-    }
-
+    const photoURLs = await uploadPhotos();
     setLoadingMsg('기록 저장 중...');
     await db.collection('hikes').doc(familyCode).collection('records').add({
       mountain: currentHike.mountain,
@@ -884,53 +828,37 @@ async function saveHike() {
       startAltitude: currentHike.startAlt,
       photos: photoURLs,
       memo: document.getElementById('memo-input').value.trim(),
+      isPastRecord: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
-    hideLoading();
-    currentHike = null;
-    hikePhotos = [];
-    loadHome();
-  } catch (e) {
-    hideLoading();
-    alert('저장 실패: ' + e.message);
-  }
+    hideLoading(); currentHike = null; hikePhotos = []; loadHome();
+  } catch (e) { hideLoading(); alert('저장 실패: ' + e.message); }
 }
 
-/* ════════════════════════════════════
-   화면 6: 기록 상세
-════════════════════════════════════ */
+/* ════ 상세 ════ */
 async function showDetail(id) {
   currentRecordId = id;
   showScreen('detail');
-
   const doc = await db.collection('hikes').doc(familyCode).collection('records').doc(id).get();
   if (!doc.exists) { alert('기록을 찾을 수 없습니다.'); showHome(); return; }
   const r = doc.data();
-
   document.getElementById('detail-mountain').textContent = '🏔️ ' + r.mountain;
   document.getElementById('detail-date').textContent = r.date;
+  document.getElementById('detail-type-badge').textContent = r.isPastRecord ? '📝 지난 기록' : '⛰️ 실시간 등산';
   document.getElementById('detail-time').textContent = r.duration ? formatDuration(r.duration) : '-';
   document.getElementById('detail-alt').textContent = r.maxAltitude ? r.maxAltitude + 'm' : '-';
-  document.getElementById('detail-photos-count').textContent = (r.photos || []).length + '장';
+  document.getElementById('detail-photos-count').textContent = (r.photos||[]).length + '장';
 
   const gallery = document.getElementById('detail-gallery');
-  if (r.photos && r.photos.length > 0) {
-    gallery.innerHTML = r.photos.map(url =>
-      `<img class="gallery-img" src="${url}" alt="" loading="lazy" onclick="openLightbox('${url}')">`
-    ).join('');
-    document.getElementById('detail-photos-section').classList.remove('hidden');
-  } else {
-    document.getElementById('detail-photos-section').classList.add('hidden');
-  }
+  const photoSec = document.getElementById('detail-photos-section');
+  if (r.photos && r.photos.length) {
+    gallery.innerHTML = r.photos.map(u => `<img class="gallery-img" src="${u}" alt="" loading="lazy" onclick="openLightbox('${u}')">`).join('');
+    photoSec.classList.remove('hidden');
+  } else { photoSec.classList.add('hidden'); }
 
-  const memoSection = document.getElementById('detail-memo-section');
-  if (r.memo) {
-    document.getElementById('detail-memo').textContent = r.memo;
-    memoSection.classList.remove('hidden');
-  } else {
-    memoSection.classList.add('hidden');
-  }
+  const memoSec = document.getElementById('detail-memo-section');
+  if (r.memo) { document.getElementById('detail-memo').textContent = r.memo; memoSec.classList.remove('hidden'); }
+  else { memoSec.classList.add('hidden'); }
 }
 
 async function deleteRecord() {
@@ -938,75 +866,45 @@ async function deleteRecord() {
   try {
     await db.collection('hikes').doc(familyCode).collection('records').doc(currentRecordId).delete();
     loadHome();
-  } catch (e) {
-    alert('삭제 실패: ' + e.message);
-  }
+  } catch (e) { alert('삭제 실패: ' + e.message); }
 }
 
-function showHome() {
-  loadHome();
-}
+function showHome() { loadHome(); }
 
-/* ════════════════════════════════════
-   라이트박스
-════════════════════════════════════ */
-function openLightbox(url) {
-  document.getElementById('lightbox-img').src = url;
-  document.getElementById('lightbox').classList.remove('hidden');
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.add('hidden');
-}
+/* ════ 라이트박스 ════ */
+function openLightbox(url) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox').classList.remove('hidden'); }
+function closeLightbox() { document.getElementById('lightbox').classList.add('hidden'); }
 
-/* ════════════════════════════════════
-   로딩
-════════════════════════════════════ */
-function showLoading(msg) {
-  document.getElementById('loading-msg').textContent = msg || '처리 중...';
-  document.getElementById('loading').classList.remove('hidden');
-}
-function setLoadingMsg(msg) {
-  document.getElementById('loading-msg').textContent = msg;
-}
-function hideLoading() {
-  document.getElementById('loading').classList.add('hidden');
-}
+/* ════ 로딩 ════ */
+function showLoading(msg) { document.getElementById('loading-msg').textContent = msg || '처리 중...'; document.getElementById('loading').classList.remove('hidden'); }
+function setLoadingMsg(msg) { document.getElementById('loading-msg').textContent = msg; }
+function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
 
-/* ════════════════════════════════════
-   유틸
-════════════════════════════════════ */
-function formatDuration(secs) {
-  const h = Math.floor(secs / 3600);
-  const m = Math.floor((secs % 3600) / 60);
-  const s = secs % 60;
+/* ════ 유틸 ════ */
+function formatDurationHMS(s) {
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  return `${pad(h)}:${pad(m)}:${pad(sec)}`;
+}
+function formatDuration(s) {
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60);
   if (h > 0) return `${h}시간 ${pad(m)}분`;
-  return `${pad(m)}분 ${pad(s)}초`;
+  return `${pad(m)}분`;
 }
-
-function pad(n) { return String(n).padStart(2, '0'); }
-
+function pad(n) { return String(n).padStart(2,'0'); }
 function formatDate(d) {
-  const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+  const kst = new Date(d.getTime() + 9*60*60*1000);
   return kst.toISOString().split('T')[0];
 }
 
-/* ════════════════════════════════════
-   앱 시작
-════════════════════════════════════ */
-if (familyCode) {
-  loadHome();
-} else {
-  showScreen('code');
-}
+/* ════ 앱 시작 ════ */
+if (familyCode) loadHome(); else showScreen('code');
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(reg => {
     reg.addEventListener('updatefound', () => {
-      const newSW = reg.installing;
-      newSW.addEventListener('statechange', () => {
-        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-          newSW.postMessage({ type: 'SKIP_WAITING' });
-        }
+      const sw = reg.installing;
+      sw.addEventListener('statechange', () => {
+        if (sw.state === 'installed' && navigator.serviceWorker.controller) sw.postMessage({ type: 'SKIP_WAITING' });
       });
     });
   });
