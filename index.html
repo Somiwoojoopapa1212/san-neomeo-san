@@ -122,9 +122,13 @@
     /* ── 사진 ── */
     .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; }
     .photo-thumb { aspect-ratio: 1; border-radius: 12px; object-fit: cover; width: 100%; background: var(--g-card); }
-    .photo-thumb-wrap { position: relative; }
-    .photo-del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.55); border: none; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .photo-thumb-wrap { position: relative; border-radius: 12px; }
+    .photo-thumb-wrap.is-rep { outline: 3px solid #F9C74F; outline-offset: 1px; border-radius: 13px; }
+    .photo-del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .photo-rep { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
+    .photo-count { font-size: 0.75rem; color: var(--g-mid); margin-top: 6px; text-align: right; }
     .add-photo-btn { aspect-ratio: 1; border-radius: 12px; border: 2px dashed var(--g-pale); background: var(--g-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--g-mid); font-size: 0.75rem; gap: 4px; }
+    .add-photo-btn.disabled { opacity: 0.4; cursor: not-allowed; }
     .add-photo-btn .icon { font-size: 1.6rem; }
 
     /* ── 완료 ── */
@@ -484,6 +488,8 @@ let allRecords      = [];  // 홈 로드 시 캐시
 let routePoints     = [];
 let lastRouteTime   = 0;
 const ROUTE_INTERVAL = 15000;
+const MAX_PHOTOS = 9;
+let repPhotoIdx = 0;  // 대표 사진 인덱스
 
 let hikeMap = null, hikePolyline = null, hikeMarker = null, detailMap = null;
 
@@ -521,6 +527,7 @@ document.getElementById('code-input').addEventListener('keyup', e => { if (e.key
 async function loadHome() {
   destroyDetailMap();
   showScreen('home');
+  pushHomeState();
   const list = document.getElementById('records-list');
   list.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><div>불러오는 중...</div></div>';
   try {
@@ -828,7 +835,7 @@ function proceedFromSearch() {
 
 /* ════ 실시간 등산 ════ */
 function beginHike() {
-  routePoints = []; lastRouteTime = 0; destroyHikeMap(); hikePhotos = [];
+  routePoints = []; lastRouteTime = 0; destroyHikeMap(); hikePhotos = []; repPhotoIdx = 0;
   currentHike = { mountain: selectedMtn.name, startTime: new Date(), endTime: null, duration: 0, maxAlt: null, startAlt: null, currentAlt: null };
   document.getElementById('hiking-mountain-title').textContent = '🏔️ ' + selectedMtn.name;
   document.getElementById('timer').textContent = '00:00:00';
@@ -937,13 +944,13 @@ function showPastForm() {
   document.getElementById('past-minutes').value = '';
   document.getElementById('past-altitude').value = '';
   document.getElementById('past-memo').value = '';
-  hikePhotos = []; renderPastPhotos();
+  hikePhotos = []; repPhotoIdx = 0; renderPastPhotos();
   showScreen('past');
 }
-function addPastPhotos(input) { for (const f of input.files) hikePhotos.push(f); renderPastPhotos(); input.value = ''; }
+function addPastPhotos(input) { addPhotosFromInput(input, renderPastPhotos); }
 function renderPastPhotos() {
-  document.getElementById('past-photos').innerHTML = renderPhotoGrid(hikePhotos, 'past') +
-    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-past').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+  document.getElementById('past-photos').innerHTML =
+    renderPhotoGrid(hikePhotos, 'past') + addPhotoBtn('past');
 }
 async function savePastHike() {
   const date = document.getElementById('past-date').value;
@@ -968,24 +975,57 @@ async function savePastHike() {
 }
 
 /* ════ 사진 ════ */
-function addHikePhotos(input) { for (const f of input.files) hikePhotos.push(f); renderHikePhotos(); input.value = ''; }
-function addFinishPhotos(input) { for (const f of input.files) hikePhotos.push(f); renderFinishPhotos(); input.value = ''; }
+function addPhotosFromInput(input, renderFn) {
+  const remaining = MAX_PHOTOS - hikePhotos.length;
+  if (remaining <= 0) { alert(`사진은 최대 ${MAX_PHOTOS}장까지 추가할 수 있어요.`); input.value = ''; return; }
+  const files = Array.from(input.files).slice(0, remaining);
+  if (input.files.length > remaining) alert(`최대 ${MAX_PHOTOS}장까지 가능해요. ${remaining}장만 추가됩니다.`);
+  for (const f of files) hikePhotos.push(f);
+  renderFn();
+  input.value = '';
+}
+function addHikePhotos(input) { addPhotosFromInput(input, renderHikePhotos); }
+function addFinishPhotos(input) { addPhotosFromInput(input, renderFinishPhotos); }
 function renderHikePhotos() {
-  document.getElementById('hiking-photos').innerHTML = renderPhotoGrid(hikePhotos, 'hiking') +
-    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-hike').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+  document.getElementById('hiking-photos').innerHTML =
+    renderPhotoGrid(hikePhotos, 'hiking') + addPhotoBtn('hike');
 }
 function renderFinishPhotos() {
-  document.getElementById('finish-photos').innerHTML = renderPhotoGrid(hikePhotos, 'finish') +
-    `<div class="add-photo-btn" onclick="document.getElementById('photo-input-finish').click()"><span class="icon">📷</span><span>사진 추가</span></div>`;
+  document.getElementById('finish-photos').innerHTML =
+    renderPhotoGrid(hikePhotos, 'finish') + addPhotoBtn('finish');
 }
 function renderPhotoGrid(photos, prefix) {
   return photos.map((f, i) => {
     const url = URL.createObjectURL(f);
-    return `<div class="photo-thumb-wrap"><img class="photo-thumb" src="${url}" alt=""><button class="photo-del" onclick="removePhoto(${i},'${prefix}')">✕</button></div>`;
+    const isRep = i === repPhotoIdx;
+    return `<div class="photo-thumb-wrap${isRep ? ' is-rep' : ''}">
+      <img class="photo-thumb" src="${url}" alt="">
+      <button class="photo-del" onclick="removePhoto(${i},'${prefix}')">✕</button>
+      <button class="photo-rep" onclick="setRepPhoto(${i},'${prefix}')" title="대표 사진으로 설정">${isRep ? '⭐' : '☆'}</button>
+    </div>`;
   }).join('');
 }
+
+function addPhotoBtn(prefix) {
+  const isFull = hikePhotos.length >= MAX_PHOTOS;
+  return `<div class="add-photo-btn${isFull ? ' disabled' : ''}"
+    onclick="${isFull ? '' : `document.getElementById('photo-input-${prefix}').click()`}">
+    <span class="icon">📷</span>
+    <span>${isFull ? '최대 9장' : `추가 (${hikePhotos.length}/${MAX_PHOTOS})`}</span>
+  </div>`;
+}
+
+function setRepPhoto(idx, prefix) {
+  repPhotoIdx = idx;
+  if (prefix === 'hiking') renderHikePhotos();
+  else if (prefix === 'finish') renderFinishPhotos();
+  else renderPastPhotos();
+}
+
 function removePhoto(idx, prefix) {
   hikePhotos.splice(idx, 1);
+  if (repPhotoIdx === idx) repPhotoIdx = 0;
+  else if (repPhotoIdx > idx) repPhotoIdx--;
   if (prefix === 'hiking') renderHikePhotos();
   else if (prefix === 'finish') renderFinishPhotos();
   else renderPastPhotos();
@@ -1016,13 +1056,9 @@ async function uploadPhotos() {
   for (let i = 0; i < hikePhotos.length; i++) {
     const f = hikePhotos[i];
     setLoadingMsg(`사진 업로드 중... (${i+1}/${hikePhotos.length})`);
-
-    // 원본 업로드
     const ref = storage.ref(`${familyCode}/photos/${Date.now()}_${i}_${f.name}`);
     await ref.put(f);
     urls.push(await ref.getDownloadURL());
-
-    // 썸네일 업로드
     const thumbBlob = await createThumbnail(f, 300);
     if (thumbBlob) {
       const thumbRef = storage.ref(`${familyCode}/thumbs/${Date.now()}_${i}_thumb.jpg`);
@@ -1030,6 +1066,12 @@ async function uploadPhotos() {
       thumbURLs.push(await thumbRef.getDownloadURL());
     }
   }
+  // 대표 사진을 배열 맨 앞으로 이동
+  if (repPhotoIdx > 0 && repPhotoIdx < urls.length) {
+    urls.unshift(urls.splice(repPhotoIdx, 1)[0]);
+    if (thumbURLs.length > repPhotoIdx) thumbURLs.unshift(thumbURLs.splice(repPhotoIdx, 1)[0]);
+  }
+  repPhotoIdx = 0;
   return { urls, thumbURLs };
 }
 
@@ -1137,8 +1179,28 @@ function formatDate(d) { const kst = new Date(d.getTime()+9*60*60*1000); return 
 function haversine(p1,p2) { const R=6371,toRad=d=>d*Math.PI/180,dLat=toRad(p2.lat-p1.lat),dLng=toRad(p2.lng-p1.lng),a=Math.sin(dLat/2)**2+Math.cos(toRad(p1.lat))*Math.cos(toRad(p2.lat))*Math.sin(dLng/2)**2; return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)); }
 function calcDistance(pts) { if(!pts||pts.length<2) return 0; let t=0; for(let i=1;i<pts.length;i++) t+=haversine(pts[i-1],pts[i]); return Math.round(t*10)/10; }
 
+/* ════ 뒤로 가기 처리 (홈 화면 종료 확인) ════ */
+function pushHomeState() {
+  window.history.pushState({ appHome: true }, '');
+}
+window.addEventListener('popstate', () => {
+  const isHome = document.getElementById('screen-home').classList.contains('active');
+  if (isHome) {
+    if (confirm('앱을 종료하시겠어요?')) {
+      window.history.back();
+    } else {
+      pushHomeState();
+    }
+  } else {
+    // 다른 화면에서 뒤로 가기 → 홈으로
+    showHome();
+    pushHomeState();
+  }
+});
+
 /* ════ 앱 시작 ════ */
 if (familyCode) loadHome(); else showScreen('code');
+pushHomeState();
 
 /* ════ SW + 자동 업데이트 ════ */
 if ('serviceWorker' in navigator) {
