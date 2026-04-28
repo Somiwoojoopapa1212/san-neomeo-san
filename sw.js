@@ -1,5 +1,5 @@
-// v:2026-04-28T04:38:54
-const CACHE = 'san-neomeo-san-v:2026-04-28T04:38:54';
+// v:2026-04-28T05:10:20
+const CACHE = 'san-neomeo-san-v:2026-04-28T05:10:20';
 const ASSETS = [
   '/san-neomeo-san/',
   '/san-neomeo-san/index.html',
