@@ -1,0 +1,33 @@
+{
+  "name": "산 넘어 산",
+  "short_name": "산 넘어 산",
+  "description": "가족 등산 기록 앱",
+  "id": "/san-neomeo-san/",
+  "start_url": "/san-neomeo-san/",
+  "scope": "/san-neomeo-san/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F0F7EE",
+  "theme_color": "#2D6A4F",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
