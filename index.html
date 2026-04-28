@@ -457,7 +457,6 @@
 </div>
 
 <!-- Kakao Maps SDK -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e5ed844650432c56d73361aec1d06927&libraries=services"></script>
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -477,19 +476,7 @@ let timerInterval = null;
 let watchId      = null;
 let hikePhotos   = [];
 let currentRecordId = null;
-let ps           = null;            // Kakao Places
 
-// Kakao Places 지연 초기화
-function initPlaces() {
-  if (ps) return true;
-  try {
-    if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services) {
-      ps = new kakao.maps.services.Places();
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
 
 /* ════ 화면 전환 ════ */
 function showScreen(name) {
@@ -591,29 +578,37 @@ function selectMode(mode) {
     mode === 'live' ? '⛰️ 등산 시작' : '📝 기록 입력 →';
 }
 
-function searchMountain() {
+async function searchMountain() {
   const q = document.getElementById('mountain-search-input').value.trim();
   if (!q) return;
-  if (!initPlaces()) { alert('카카오 검색 서비스 로딩 중입니다. 잠시 후 다시 시도해주세요.'); return; }
 
   const resultsEl = document.getElementById('search-results');
   resultsEl.classList.remove('hidden');
   resultsEl.innerHTML = '<div class="search-empty">검색 중...</div>';
 
-  ps.keywordSearch(q, (results, status) => {
-    if (status === kakao.maps.services.Status.OK) {
-      resultsEl.innerHTML = results.map((r, i) =>
-        `<div class="search-item" onclick="selectSearchResult(${i})">
-          <div class="s-name">${r.place_name}</div>
-          <div class="s-addr">${r.address_name}</div>
-        </div>`
-      ).join('');
-      // 결과를 전역 변수에 저장
-      window._searchResults = results;
-    } else {
+  try {
+    const resp = await fetch(
+      `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(q)}&size=10`,
+      { headers: { 'Authorization': 'KakaoAK 993c5a992861be3eea43cb5ee7f68376' } }
+    );
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const places = data.documents || [];
+
+    if (!places.length) {
       resultsEl.innerHTML = '<div class="search-empty">검색 결과가 없습니다</div>';
+      return;
     }
-  });
+    window._searchResults = places;
+    resultsEl.innerHTML = places.map((r, i) =>
+      `<div class="search-item" onclick="selectSearchResult(${i})">
+        <div class="s-name">${r.place_name}</div>
+        <div class="s-addr">${r.address_name}</div>
+      </div>`
+    ).join('');
+  } catch(e) {
+    resultsEl.innerHTML = `<div class="search-empty">검색 실패: ${e.message}</div>`;
+  }
 }
 
 function selectSearchResult(idx) {
