@@ -614,66 +614,112 @@ function showMilestone() {
 }
 
 function renderMountainSVG(totalAlt) {
-  const maxAlt = MILESTONES[MILESTONES.length - 1].alt;
-  const progress = Math.min(1, totalAlt / maxAlt);
+  // 마일스톤 기준 고도 배열 (0 = 출발점)
+  const TRAIL_ALTS = [0, 1000, 2000, 3000, 5000, 8848, 10000, 20000, 50000];
 
-  // 산 높이 기준 y 좌표 계산 (top=20, bottom=340)
-  const svgH = 360, topY = 30, botY = 340;
-  const climberY = botY - (botY - topY) * progress;
-  const climberX = 150 + (progress - 0.5) * 20; // 약간 좌우 이동
+  // 트레일 웨이포인트: 산 내부에서 좌우 스위치백으로 균등 배치
+  // 각 점은 산 삼각형(꼭짓점 150,32 / 바닥 8,292 ~ 292,292) 내부에 안전하게 위치
+  const TRAIL_PTS = [
+    { x: 150, y: 282 }, // 출발
+    { x: 108, y: 252 }, // 1,000m  ← 왼쪽
+    { x: 188, y: 222 }, // 2,000m  → 오른쪽
+    { x: 106, y: 192 }, // 3,000m  ← 왼쪽
+    { x: 186, y: 161 }, // 5,000m  → 오른쪽
+    { x: 118, y: 130 }, // 8,848m  ← 왼쪽
+    { x: 170, y: 100 }, // 10,000m → 오른쪽
+    { x: 148, y: 70  }, // 20,000m ← 중앙 왼쪽
+    { x: 150, y: 40  }, // 50,000m ▲ 정상
+  ];
 
-  // 마일스톤 y 위치
-  const msPositions = MILESTONES.map(m => ({
-    ...m,
-    y: botY - (botY - topY) * Math.min(1, m.alt / maxAlt),
-    achieved: totalAlt >= m.alt,
-  }));
+  // 등산가 위치: 현재 구간에서 선형 보간
+  let climberPos = { ...TRAIL_PTS[0] };
+  for (let i = 0; i < TRAIL_ALTS.length - 1; i++) {
+    if (totalAlt >= TRAIL_ALTS[i] && totalAlt < TRAIL_ALTS[i + 1]) {
+      const t = (totalAlt - TRAIL_ALTS[i]) / (TRAIL_ALTS[i + 1] - TRAIL_ALTS[i]);
+      const p1 = TRAIL_PTS[i], p2 = TRAIL_PTS[i + 1];
+      climberPos = { x: p1.x + (p2.x - p1.x) * t, y: p1.y + (p2.y - p1.y) * t };
+      break;
+    }
+  }
+  if (totalAlt >= TRAIL_ALTS[TRAIL_ALTS.length - 1]) climberPos = { ...TRAIL_PTS[TRAIL_PTS.length - 1] };
 
-  const scene = document.getElementById('mountain-scene');
-  scene.innerHTML = `
-  <svg viewBox="0 0 300 ${svgH}" xmlns="http://www.w3.org/2000/svg">
+  // 전체 트레일 경로
+  const fullPath = TRAIL_PTS.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+
+  // 달성 구간 경로 (출발 → 등산가 현재 위치)
+  const achPts = [TRAIL_PTS[0]];
+  for (let i = 0; i < MILESTONES.length; i++) {
+    if (totalAlt >= MILESTONES[i].alt) achPts.push(TRAIL_PTS[i + 1]);
+    else break;
+  }
+  const last = achPts[achPts.length - 1];
+  if (Math.abs(climberPos.x - last.x) > 0.5 || Math.abs(climberPos.y - last.y) > 0.5) achPts.push(climberPos);
+  const achPath = achPts.length > 1 ? achPts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') : '';
+
+  // 마일스톤 점 + 라벨 생성
+  const nextIdx = MILESTONES.findIndex(m => totalAlt < m.alt);
+  const msDots = MILESTONES.map((m, i) => {
+    const pt = TRAIL_PTS[i + 1];
+    const achieved = totalAlt >= m.alt;
+    const isNext   = nextIdx === i;
+    const dotR    = (achieved || isNext) ? 7 : 5;
+    const dotFill = achieved ? '#74C69D' : isNext ? '#F9C74F' : 'rgba(255,255,255,0.28)';
+    const opacity = achieved ? 1 : isNext ? 1 : 0.5;
+    // 트레일 점 x 기준으로 라벨 방향 결정
+    const isRight = pt.x >= 150;
+    const lx = isRight ? pt.x + 15 : pt.x - 15;
+    const anchor = isRight ? 'start' : 'end';
+    const altLabel = m.alt >= 1000
+      ? (m.alt % 1000 === 0 ? m.alt / 1000 + 'k' : (m.alt / 1000).toFixed(1) + 'k')
+      : m.alt;
+    return `
+      <circle cx="${pt.x}" cy="${pt.y}" r="${dotR}" fill="${dotFill}" stroke="white" stroke-width="2" opacity="${opacity}"/>
+      ${achieved ? `<text x="${pt.x}" y="${pt.y + 4.5}" text-anchor="middle" font-size="9" fill="#1B4332" font-weight="bold">✓</text>` : ''}
+      <text x="${lx}" y="${pt.y + 4}" text-anchor="${anchor}" font-size="11" fill="white" opacity="${opacity}" font-family="Jua,sans-serif">${altLabel}m</text>`;
+  }).join('');
+
+  document.getElementById('mountain-scene').innerHTML = `
+  <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#0D2137"/>
-        <stop offset="70%" stop-color="#1a3a5c"/>
-        <stop offset="100%" stop-color="#2D6A4F"/>
-      </linearGradient>
-      <linearGradient id="mtG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
-        <stop offset="20%" stop-color="#B7E4C7"/>
+        <stop offset="0%" stop-color="#081c2e"/>
+        <stop offset="75%" stop-color="#1a3a5c"/>
         <stop offset="100%" stop-color="#1B4332"/>
       </linearGradient>
     </defs>
-    <!-- 배경 -->
-    <rect width="300" height="${svgH}" fill="url(#skyG)"/>
-    <!-- 별 -->
-    ${Array.from({length:20}, (_,i) => {
-      const sx = 10 + (i*57+13)%280, sy = 10 + (i*37+7)%120;
-      return `<circle cx="${sx}" cy="${sy}" r="${i%3===0?1.8:1}" fill="white" opacity="${0.4+i%4*0.15}"/>`;
-    }).join('')}
-    <!-- 산 실루엣 -->
-    <polygon points="150,${topY} 280,${botY} 20,${botY}" fill="url(#mtG)"/>
-    <!-- 눈 -->
-    <polygon points="150,${topY} 185,${topY+60} 115,${topY+60}" fill="white" opacity="0.9"/>
-    <!-- 등산 경로 (점선) -->
-    <line x1="150" y1="${botY}" x2="${climberX}" y2="${climberY}" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="6,5"/>
-    <!-- 마일스톤 점 -->
-    ${msPositions.map(m => {
-      const mx = 150 + (m.y - botY) * 0.08;
-      const col = m.achieved ? '#74C69D' : 'rgba(255,255,255,0.3)';
-      return `<circle cx="${mx}" cy="${m.y}" r="${m.achieved ? 5 : 4}" fill="${col}" stroke="white" stroke-width="1.5"/>`;
-    }).join('')}
+    <rect width="300" height="320" fill="url(#skyG)"/>
+    <!-- 별 (고정 위치) -->
+    <circle cx="28" cy="18" r="1.5" fill="white" opacity="0.7"/>
+    <circle cx="68" cy="12" r="1.1" fill="white" opacity="0.55"/>
+    <circle cx="118" cy="26" r="1.3" fill="white" opacity="0.65"/>
+    <circle cx="198" cy="16" r="1.5" fill="white" opacity="0.8"/>
+    <circle cx="250" cy="30" r="1" fill="white" opacity="0.5"/>
+    <circle cx="272" cy="10" r="1.3" fill="white" opacity="0.7"/>
+    <circle cx="42" cy="48" r="1" fill="white" opacity="0.4"/>
+    <circle cx="240" cy="52" r="1.2" fill="white" opacity="0.5"/>
+    <circle cx="88" cy="42" r="0.9" fill="white" opacity="0.6"/>
+    <circle cx="160" cy="22" r="1" fill="white" opacity="0.45"/>
+    <!-- 산 본체 -->
+    <polygon points="150,32 292,292 8,292" fill="#1B4332"/>
+    <polygon points="150,32 292,292 8,292" fill="#2D6A4F" opacity="0.4"/>
+    <!-- 정상 눈 -->
+    <polygon points="150,32 183,88 117,88" fill="white" opacity="0.88"/>
+    <polygon points="150,32 167,63 133,63" fill="white" opacity="0.96"/>
+    <!-- 전체 트레일 (흰 점선) -->
+    <path d="${fullPath}" fill="none" stroke="rgba(255,255,255,0.22)"
+      stroke-width="2.5" stroke-dasharray="5,5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 달성 트레일 (초록 실선) -->
+    ${achPath ? `<path d="${achPath}" fill="none" stroke="#74C69D"
+      stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
+    <!-- 마일스톤 점 + 라벨 -->
+    ${msDots}
     <!-- 등산가 -->
-    <circle cx="${climberX}" cy="${climberY}" r="10" fill="#F9C74F" opacity="0.9"/>
-    <text x="${climberX}" y="${climberY+5}" text-anchor="middle" font-size="12">🧗</text>
-    <!-- 현재 고도 라벨 -->
-    <rect x="${climberX + 14}" y="${climberY - 16}" width="80" height="22" rx="6" fill="rgba(0,0,0,0.5)"/>
-    <text x="${climberX + 54}" y="${climberY - 1}" text-anchor="middle" font-size="11" fill="white">${totalAlt.toLocaleString()}m</text>
-    <!-- 정상 라벨 -->
-    <text x="150" y="${topY - 6}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)">${MILESTONES[MILESTONES.length-1].alt.toLocaleString()}m</text>
+    <circle cx="${climberPos.x.toFixed(1)}" cy="${climberPos.y.toFixed(1)}" r="16" fill="rgba(249,199,79,0.2)"/>
+    <circle cx="${climberPos.x.toFixed(1)}" cy="${climberPos.y.toFixed(1)}" r="10" fill="#F9C74F" stroke="white" stroke-width="2.5"/>
+    <text x="${climberPos.x.toFixed(1)}" y="${(climberPos.y + 5.5).toFixed(1)}" text-anchor="middle" font-size="12">🧗</text>
     <!-- 지면 -->
-    <rect x="0" y="${botY}" width="300" height="${svgH - botY}" fill="#1B4332"/>
-    <text x="150" y="${botY + 18}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.5)">출발</text>
+    <rect x="0" y="292" width="300" height="28" fill="#1B4332"/>
+    <text x="150" y="310" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.45)" font-family="Jua,sans-serif">🏁 출발점</text>
   </svg>`;
 }
 
