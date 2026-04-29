@@ -29,6 +29,93 @@
     .screen { display: none; flex-direction: column; min-height: 100vh; }
     .screen.active { display: flex; }
 
+    /* ══ 스플래시 ══ */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #081c2e;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      overflow: hidden;
+    }
+    #splash.out { animation: splashOut 0.7s ease-out forwards; pointer-events: none; }
+    @keyframes splashOut { to { opacity: 0; } }
+
+    .sp-sky {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #030d1a 0%, #0d2137 45%, #1B4332 100%);
+      animation: spSkyDawn 2.8s ease-out forwards;
+    }
+    @keyframes spSkyDawn {
+      0%   { background: linear-gradient(180deg, #000509 0%, #060f1e 50%, #0d2117 100%); }
+      60%  { background: linear-gradient(180deg, #071020 0%, #102840 50%, #1a3828 100%); }
+      100% { background: linear-gradient(180deg, #0a1828 0%, #163050 50%, #2D6A4F 100%); }
+    }
+    /* 별 */
+    .sp-star { position: absolute; background: white; border-radius: 50%; animation: spStar 2.5s ease-in-out forwards; }
+    @keyframes spStar {
+      0%   { opacity: 0; transform: scale(0); }
+      20%  { opacity: 1; transform: scale(1); }
+      70%  { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+    /* 태양 */
+    .sp-sun {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      width: 70px; height: 70px;
+      background: radial-gradient(circle, #FFE066 0%, #F9A825 60%, transparent 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 60px 20px rgba(249,168,37,0.35);
+      animation: spSunRise 2s ease-out 0.6s both;
+    }
+    @keyframes spSunRise {
+      from { bottom: 32%; opacity: 0; }
+      to   { bottom: 44%; opacity: 1; }
+    }
+    /* 뒷 산 (멀리) */
+    .sp-mt-far {
+      position: absolute; bottom: 0; width: 100%;
+      animation: spMtRise 1.1s ease-out 0.1s both;
+    }
+    @keyframes spMtRise {
+      from { transform: translateY(80px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    /* 앞 산 (메인) */
+    .sp-mt-main {
+      position: absolute; bottom: 0; width: 100%;
+      animation: spMtRise 1.2s ease-out 0.3s both;
+    }
+    /* 등산가 */
+    .sp-climber {
+      position: absolute; font-size: 26px; line-height: 1;
+      animation: spClimb 2s ease-in-out 0.8s both;
+    }
+    @keyframes spClimb {
+      0%   { bottom: 30%; left: 18%; opacity: 0; }
+      15%  { opacity: 1; }
+      100% { bottom: 56%; left: 44%; opacity: 1; }
+    }
+    /* 타이틀 */
+    .sp-title {
+      position: absolute; top: 13%; width: 100%; text-align: center;
+      animation: spTitle 0.9s ease-out 1s both;
+    }
+    @keyframes spTitle {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .sp-emoji  { font-size: 3.6rem; margin-bottom: 8px; }
+    .sp-name   { font-size: 2.4rem; color: #fff; letter-spacing: 2px; text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+    .sp-sub    { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-top: 6px; font-family: 'Noto Sans KR', sans-serif; }
+    /* 하단 그라데이션 페이드 */
+    .sp-fog {
+      position: absolute; bottom: 0; width: 100%; height: 80px;
+      background: linear-gradient(transparent, #2D6A4F);
+      animation: spFog 1.5s ease-out 0.5s both;
+    }
+    @keyframes spFog { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ══ 공통 ══ */
     .top-bar { background: var(--g-primary); color: var(--white); display: flex; align-items: center; padding: 14px 16px; gap: 12px; position: sticky; top: 0; z-index: 10; }
     .top-bar h2 { flex: 1; font-size: 1.1rem; }
     .top-bar .back-btn { background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; padding: 0 4px; }
@@ -43,7 +130,7 @@
     .input-field:focus { border-color: var(--g-primary); }
     .input-label { font-size: 0.85rem; color: var(--g-mid); margin-bottom: 8px; display: block; }
 
-    /* ── 가족코드 ── */
+    /* ══ 가족코드 ══ */
     #screen-code { align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
     .welcome-icon { font-size: 5rem; margin-bottom: 16px; }
     .welcome-title { font-size: 2rem; color: var(--g-primary); margin-bottom: 8px; }
@@ -51,7 +138,7 @@
     .code-box { width: 100%; max-width: 340px; }
     .code-box .input-field { text-align: center; font-size: 1.3rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
 
-    /* ── 홈 ── */
+    /* ══ 홈 ══ */
     #screen-home { padding-bottom: 80px; }
     .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 16px 0; }
     .stat-card { background: var(--white); border-radius: 16px; padding: 14px 10px; text-align: center; box-shadow: 0 2px 12px var(--shadow); }
@@ -74,7 +161,7 @@
     .fab { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); border: none; color: var(--white); font-size: 2rem; cursor: pointer; box-shadow: 0 6px 20px var(--shadow); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
     .fab:active { transform: scale(0.92); }
 
-    /* ── 새 등산 ── */
+    /* ══ 새 등산 ══ */
     #screen-start .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
     .mode-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .mode-tab { background: var(--g-bg); border: 2px solid var(--g-pale); border-radius: 14px; padding: 14px 10px; color: var(--g-mid); font-family: 'Jua', sans-serif; font-size: 0.9rem; text-align: center; cursor: pointer; transition: all 0.2s; }
@@ -95,7 +182,7 @@
     .recent-mountains { display: flex; flex-wrap: wrap; gap: 8px; }
     .mountain-chip { background: var(--g-card); border: 1.5px solid var(--g-pale); border-radius: 20px; padding: 6px 14px; font-size: 0.85rem; color: var(--g-primary); cursor: pointer; }
 
-    /* ── 등산 중 ── */
+    /* ══ 등산 중 ══ */
     #screen-hiking .content { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; }
     .timer-display { text-align: center; font-size: 3.2rem; letter-spacing: 2px; color: var(--g-dark); background: var(--white); border-radius: 20px; padding: 16px 20px; box-shadow: 0 4px 20px var(--shadow); }
     .timer-label { font-size: 0.8rem; color: var(--g-mid); margin-top: 4px; }
@@ -109,7 +196,7 @@
     .alt-card .alt-label { font-size: 0.78rem; color: var(--g-light); margin-bottom: 4px; }
     .alt-accuracy { font-size: 0.7rem; color: #aaa; margin-top: 4px; }
 
-    /* ── 지도 ── */
+    /* ══ 지도 ══ */
     .map-container { border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px var(--shadow); }
     .map-container .map-label { background: var(--g-primary); color: var(--white); font-size: 0.78rem; padding: 6px 14px; display: flex; align-items: center; gap: 6px; }
     #hike-map { height: 200px; }
@@ -119,19 +206,18 @@
     .route-stat .rv { font-size: 1rem; color: var(--g-primary); }
     .route-stat .rk { font-size: 0.7rem; color: var(--g-mid); margin-top: 2px; }
 
-    /* ── 사진 ── */
+    /* ══ 사진 ══ */
     .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; }
-    .photo-thumb { aspect-ratio: 1; border-radius: 12px; object-fit: cover; width: 100%; background: var(--g-card); }
+    .photo-thumb { aspect-ratio: 1; border-radius: 12px; object-fit: cover; width: 100%; background: var(--g-card); display: block; }
     .photo-thumb-wrap { position: relative; border-radius: 12px; }
     .photo-thumb-wrap.is-rep { outline: 3px solid #F9C74F; outline-offset: 1px; border-radius: 13px; }
     .photo-del { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .photo-rep { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
-    .photo-count { font-size: 0.75rem; color: var(--g-mid); margin-top: 6px; text-align: right; }
     .add-photo-btn { aspect-ratio: 1; border-radius: 12px; border: 2px dashed var(--g-pale); background: var(--g-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; color: var(--g-mid); font-size: 0.75rem; gap: 4px; }
-    .add-photo-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+    .add-photo-btn.full { opacity: 0.4; cursor: not-allowed; }
     .add-photo-btn .icon { font-size: 1.6rem; }
 
-    /* ── 완료 ── */
+    /* ══ 완료 ══ */
     #screen-finish .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
     .summary-card { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); border-radius: 20px; padding: 24px 20px; text-align: center; }
     .summary-mountain { font-size: 1.4rem; margin-bottom: 16px; }
@@ -141,15 +227,15 @@
     .memo-area { width: 100%; border: 2px solid var(--g-pale); border-radius: 14px; padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.95rem; color: var(--g-dark); background: var(--white); outline: none; resize: none; min-height: 90px; }
     .memo-area:focus { border-color: var(--g-primary); }
 
-    /* ── 지난 기록 ── */
-    #screen-past .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; }
+    /* ══ 지난기록 / 수정 공통 ══ */
+    #screen-past .content, #screen-edit .content { padding: 20px 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; padding-bottom: 30px; }
     .mountain-name-badge { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); border-radius: 14px; padding: 12px 16px; font-size: 1.1rem; text-align: center; }
     .time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .time-unit-wrap { display: flex; align-items: center; gap: 8px; }
     .time-unit-wrap .input-field { flex: 1; text-align: center; }
     .time-unit-label { font-size: 0.9rem; color: var(--g-mid); white-space: nowrap; }
 
-    /* ── 상세 ── */
+    /* ══ 상세 ══ */
     #screen-detail .content { flex: 1; padding-bottom: 30px; }
     .detail-hero { background: linear-gradient(135deg, var(--g-primary), var(--g-mid)); color: var(--white); padding: 24px 20px 28px; text-align: center; }
     .detail-mountain { font-size: 1.6rem; margin-bottom: 6px; }
@@ -166,84 +252,96 @@
     .gallery-img { aspect-ratio: 1; object-fit: cover; width: 100%; cursor: pointer; }
     .memo-display { background: var(--g-bg); border-radius: 12px; padding: 14px 16px; font-family: 'Noto Sans KR', sans-serif; font-size: 0.9rem; line-height: 1.6; color: var(--g-dark); white-space: pre-wrap; }
 
-    /* ══════════════════════════════════════
-       마일스톤 화면
-    ══════════════════════════════════════ */
+    /* ══ 마일스톤 ══ */
     #screen-milestone { background: linear-gradient(180deg, #0D2137 0%, #1B4332 60%, #2D6A4F 100%); }
     #screen-milestone .top-bar { background: rgba(0,0,0,0.3); }
-
-    .milestone-hero {
-      padding: 24px 20px 0;
-      text-align: center; color: var(--white);
-    }
+    .milestone-hero { padding: 24px 20px 0; text-align: center; color: var(--white); }
     .milestone-total { font-size: 0.9rem; opacity: 0.8; margin-bottom: 4px; }
     .milestone-num { font-size: 3.5rem; color: #74C69D; line-height: 1.1; }
     .milestone-unit { font-size: 1.2rem; color: var(--g-pale); }
-
-    /* 산 SVG 영역 */
     .mountain-scene { position: relative; margin: 0 auto; width: 100%; max-width: 400px; }
     .mountain-scene svg { width: 100%; height: auto; }
-
-    /* 다음 목표 */
-    .next-goal-card {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px; padding: 16px 20px; margin: 0 16px 16px;
-      color: var(--white);
-    }
+    .next-goal-card { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 20px; margin: 0 16px 16px; color: var(--white); }
     .next-goal-label { font-size: 0.78rem; opacity: 0.75; margin-bottom: 8px; }
     .next-goal-title { font-size: 1.1rem; margin-bottom: 12px; }
     .progress-bar-wrap { background: rgba(255,255,255,0.15); border-radius: 8px; height: 12px; overflow: hidden; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #52B788, #74C69D); border-radius: 8px; transition: width 1s ease; }
     .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; opacity: 0.8; margin-top: 6px; }
-
-    /* 마일스톤 그리드 */
     .milestone-section-title { color: rgba(255,255,255,0.7); font-size: 0.85rem; padding: 4px 16px 10px; }
     .milestone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 30px; }
-    .ms-card {
-      border-radius: 16px; padding: 14px;
-      display: flex; flex-direction: column; gap: 6px;
-      transition: transform 0.15s;
-    }
-    .ms-card.achieved {
-      background: rgba(82,183,136,0.2); border: 1.5px solid rgba(82,183,136,0.5);
-    }
-    .ms-card.current {
-      background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.6);
-      animation: glowPulse 2s infinite;
-    }
+    .ms-card { border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .ms-card.achieved { background: rgba(82,183,136,0.2); border: 1.5px solid rgba(82,183,136,0.5); }
+    .ms-card.current  { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.6); animation: glowPulse 2s infinite; }
     @keyframes glowPulse { 0%,100%{box-shadow:0 0 0 0 rgba(116,198,157,0)} 50%{box-shadow:0 0 16px 4px rgba(116,198,157,0.4)} }
-    .ms-card.locked {
-      background: rgba(0,0,0,0.2); border: 1.5px solid rgba(255,255,255,0.1);
-      opacity: 0.6;
-    }
+    .ms-card.locked { background: rgba(0,0,0,0.2); border: 1.5px solid rgba(255,255,255,0.1); opacity: 0.6; }
     .ms-emoji { font-size: 1.8rem; }
-    .ms-alt { font-size: 1.1rem; color: var(--white); }
-    .ms-name { font-size: 0.8rem; color: rgba(255,255,255,0.8); }
-    .ms-date { font-size: 0.7rem; color: rgba(255,255,255,0.55); font-family: 'Noto Sans KR', sans-serif; }
+    .ms-alt   { font-size: 1.1rem; color: var(--white); }
+    .ms-name  { font-size: 0.8rem; color: rgba(255,255,255,0.8); }
+    .ms-date  { font-size: 0.7rem; color: rgba(255,255,255,0.55); font-family: 'Noto Sans KR',sans-serif; }
     .ms-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 8px; width: fit-content; }
     .ms-badge.done { background: rgba(82,183,136,0.3); color: #74C69D; }
     .ms-badge.next { background: rgba(255,255,255,0.2); color: white; }
     .ms-badge.lock { background: rgba(0,0,0,0.2); color: rgba(255,255,255,0.4); }
 
-    /* ── 공통 ── */
+    /* ══ 업데이트 배너 ══ */
+    .update-banner { position: fixed; bottom: 84px; left: 16px; right: 16px; background: var(--g-dark); color: var(--white); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.35); z-index: 200; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .update-banner .msg { font-size: 0.9rem; flex: 1; }
+    .update-banner .msg small { display: block; font-size: 0.75rem; opacity: 0.75; margin-top: 2px; font-family: 'Noto Sans KR',sans-serif; }
+    .update-btn { background: var(--g-light); border: none; border-radius: 10px; padding: 8px 14px; color: var(--g-dark); font-family: 'Jua',sans-serif; font-size: 0.88rem; cursor: pointer; white-space: nowrap; }
+
     .loading-overlay { position: fixed; inset: 0; background: rgba(27,67,50,0.7); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999; color: white; gap: 16px; font-size: 1rem; }
     .spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 998; padding: 20px; }
     .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; }
     .lightbox-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-    /* ── 업데이트 배너 ── */
-    .update-banner { position: fixed; bottom: 84px; left: 16px; right: 16px; background: var(--g-dark); color: var(--white); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 24px rgba(0,0,0,0.35); z-index: 200; animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .update-banner .msg { font-size: 0.9rem; flex: 1; }
-    .update-banner .msg small { display: block; font-size: 0.75rem; opacity: 0.75; margin-top: 2px; font-family: 'Noto Sans KR', sans-serif; }
-    .update-btn { background: var(--g-light); border: none; border-radius: 10px; padding: 8px 14px; color: var(--g-dark); font-family: 'Jua', sans-serif; font-size: 0.88rem; cursor: pointer; white-space: nowrap; }
-
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
+
+<!-- ════ 스플래시 ════ -->
+<div id="splash">
+  <div class="sp-sky"></div>
+  <!-- 별 -->
+  <div class="sp-star" style="width:3px;height:3px;top:8%;left:12%;animation-delay:0s"></div>
+  <div class="sp-star" style="width:2px;height:2px;top:12%;left:28%;animation-delay:0.1s"></div>
+  <div class="sp-star" style="width:3px;height:3px;top:6%;left:55%;animation-delay:0.15s"></div>
+  <div class="sp-star" style="width:2px;height:2px;top:15%;left:72%;animation-delay:0.05s"></div>
+  <div class="sp-star" style="width:3px;height:3px;top:9%;left:85%;animation-delay:0.2s"></div>
+  <div class="sp-star" style="width:2px;height:2px;top:20%;left:42%;animation-delay:0.08s"></div>
+  <div class="sp-star" style="width:2px;height:2px;top:18%;left:5%;animation-delay:0.12s"></div>
+  <div class="sp-star" style="width:3px;height:3px;top:5%;left:95%;animation-delay:0.18s"></div>
+  <!-- 태양 -->
+  <div class="sp-sun"></div>
+  <!-- 뒷산 -->
+  <div class="sp-mt-far">
+    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+      <polygon points="80,180 200,40 320,180" fill="#162e20" opacity="0.7"/>
+      <polygon points="-20,180 100,70 220,180" fill="#1a3828" opacity="0.6"/>
+      <polygon points="200,180 330,60 400,130 400,180" fill="#162e20" opacity="0.65"/>
+    </svg>
+  </div>
+  <!-- 메인 산 -->
+  <div class="sp-mt-main">
+    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+      <polygon points="200,0 390,200 10,200" fill="#1B4332"/>
+      <polygon points="200,0 240,70 160,70" fill="white" opacity="0.9"/>
+      <polygon points="200,0 220,45 180,45" fill="white" opacity="0.98"/>
+    </svg>
+  </div>
+  <!-- 등산가 -->
+  <div class="sp-climber">🧗</div>
+  <!-- 하단 안개 -->
+  <div class="sp-fog"></div>
+  <!-- 타이틀 -->
+  <div class="sp-title">
+    <div class="sp-emoji">🏔️</div>
+    <div class="sp-name">산 넘어 산</div>
+    <div class="sp-sub">가족 등산 기록</div>
+  </div>
+</div>
 
 <!-- ════ 화면 1: 가족 코드 ════ -->
 <div id="screen-code" class="screen active">
@@ -264,9 +362,8 @@
   </div>
   <div class="stats-grid">
     <div class="stat-card"><div class="num" id="stat-count">0</div><div class="lbl">총 등산</div></div>
-    <div class="stat-card clickable" onclick="showMilestone()" title="마일스톤 보기">
-      <div class="num" id="stat-total-alt">0</div>
-      <div class="lbl">누적 고도(m) 🏆</div>
+    <div class="stat-card clickable" onclick="showMilestone()">
+      <div class="num" id="stat-total-alt">0</div><div class="lbl">누적 고도(m) 🏆</div>
     </div>
     <div class="stat-card"><div class="num" id="stat-highest" style="font-size:0.95rem">-</div><div class="lbl">최고봉</div></div>
   </div>
@@ -277,10 +374,7 @@
 
 <!-- ════ 화면 3: 새 등산 ════ -->
 <div id="screen-start" class="screen">
-  <div class="top-bar">
-    <button class="back-btn" onclick="showHome()">←</button>
-    <h2>새 등산</h2>
-  </div>
+  <div class="top-bar"><button class="back-btn" onclick="showHome()">←</button><h2>새 등산</h2></div>
   <div class="content">
     <div>
       <div class="input-label">기록 방식</div>
@@ -305,7 +399,7 @@
       <div class="input-label">최근 등산한 산</div>
       <div class="recent-mountains" id="recent-mountains"></div>
     </div>
-    <div style="margin-top:auto; padding-top:8px">
+    <div style="margin-top:auto;padding-top:8px">
       <button class="btn-primary" id="start-action-btn" onclick="proceedFromSearch()">⛰️ 등산 시작</button>
     </div>
   </div>
@@ -313,9 +407,7 @@
 
 <!-- ════ 화면 4: 등산 중 ════ -->
 <div id="screen-hiking" class="screen">
-  <div class="top-bar" style="background:#1B4332">
-    <h2 id="hiking-mountain-title">등산 중</h2>
-  </div>
+  <div class="top-bar" style="background:#1B4332"><h2 id="hiking-mountain-title">등산 중</h2></div>
   <div class="content">
     <div class="timer-display"><div id="timer">00:00:00</div><div class="timer-label">경과 시간</div></div>
     <div class="gps-status searching" id="gps-status">📡 GPS 연결 중...</div>
@@ -329,7 +421,7 @@
     </div>
     <div>
       <div class="input-label">📸 등산 중 사진</div>
-      <div class="photo-grid" id="hiking-photos"><div class="add-photo-btn" onclick="document.getElementById('photo-input-hike').click()"><span class="icon">📷</span><span>사진 추가</span></div></div>
+      <div class="photo-grid" id="hiking-photos"></div>
       <input type="file" id="photo-input-hike" accept="image/*" multiple hidden onchange="addHikePhotos(this)">
     </div>
     <div style="padding-top:4px"><button class="btn-danger" onclick="confirmFinish()">🏁 등산 완료</button></div>
@@ -350,7 +442,7 @@
     </div>
     <div>
       <div class="input-label">📸 사진</div>
-      <div class="photo-grid" id="finish-photos"><div class="add-photo-btn" onclick="document.getElementById('photo-input-finish').click()"><span class="icon">📷</span><span>사진 추가</span></div></div>
+      <div class="photo-grid" id="finish-photos"></div>
       <input type="file" id="photo-input-finish" accept="image/*" multiple hidden onchange="addFinishPhotos(this)">
     </div>
     <div><label class="input-label">📝 메모</label><textarea class="memo-area" id="memo-input" placeholder="오늘 등산 어땠나요?"></textarea></div>
@@ -374,10 +466,10 @@
         <div class="time-unit-wrap"><input type="number" id="past-minutes" class="input-field" min="0" max="59" placeholder="0"><span class="time-unit-label">분</span></div>
       </div>
     </div>
-    <div><label class="input-label">🏔️ 최고 고도 (m, 선택사항)</label><input type="number" id="past-altitude" class="input-field" placeholder="예: 836"></div>
+    <div><label class="input-label">🏔️ 최고 고도 (m)</label><input type="number" id="past-altitude" class="input-field" placeholder="예: 836"></div>
     <div>
       <label class="input-label">📸 사진</label>
-      <div class="photo-grid" id="past-photos"><div class="add-photo-btn" onclick="document.getElementById('photo-input-past').click()"><span class="icon">📷</span><span>사진 추가</span></div></div>
+      <div class="photo-grid" id="past-photos"></div>
       <input type="file" id="photo-input-past" accept="image/*" multiple hidden onchange="addPastPhotos(this)">
     </div>
     <div><label class="input-label">📝 메모</label><textarea class="memo-area" id="past-memo" placeholder="이날 등산 어땠나요?"></textarea></div>
@@ -390,6 +482,7 @@
   <div class="top-bar">
     <button class="back-btn" onclick="showHome()">←</button>
     <h2>등산 기록</h2>
+    <button class="icon-btn" onclick="startEdit()">✏️ 수정</button>
     <button class="icon-btn" onclick="deleteRecord()" style="background:rgba(255,80,80,0.3)">🗑️</button>
   </div>
   <div class="content">
@@ -419,29 +512,44 @@
   </div>
 </div>
 
-<!-- ════ 화면 8: 마일스톤 ════ -->
-<div id="screen-milestone" class="screen">
-  <div class="top-bar">
-    <button class="back-btn" onclick="showHome()">←</button>
-    <h2>🏆 누적 고도 마일스톤</h2>
+<!-- ════ 화면 8: 기록 수정 ════ -->
+<div id="screen-edit" class="screen">
+  <div class="top-bar"><button class="back-btn" id="edit-back-btn">←</button><h2>기록 수정 ✏️</h2></div>
+  <div class="content">
+    <div><label class="input-label">🏔️ 산 이름</label><input type="text" id="edit-mountain" class="input-field" placeholder="산 이름"></div>
+    <div><label class="input-label">📅 등산 날짜</label><input type="date" id="edit-date" class="input-field"></div>
+    <div>
+      <label class="input-label">⏱️ 소요 시간</label>
+      <div class="time-row">
+        <div class="time-unit-wrap"><input type="number" id="edit-hours" class="input-field" min="0" max="24" placeholder="0"><span class="time-unit-label">시간</span></div>
+        <div class="time-unit-wrap"><input type="number" id="edit-minutes" class="input-field" min="0" max="59" placeholder="0"><span class="time-unit-label">분</span></div>
+      </div>
+    </div>
+    <div><label class="input-label">🏔️ 최고 고도 (m)</label><input type="number" id="edit-altitude" class="input-field" placeholder="예: 836"></div>
+    <div>
+      <label class="input-label">📸 사진 <span style="font-size:0.78rem;color:var(--g-mid)">(⭐ = 대표 사진)</span></label>
+      <div class="photo-grid" id="edit-photos"></div>
+      <input type="file" id="photo-input-edit" accept="image/*" multiple hidden onchange="addEditPhotos(this)">
+    </div>
+    <div><label class="input-label">📝 메모</label><textarea class="memo-area" id="edit-memo" placeholder="메모를 입력해주세요."></textarea></div>
+    <div style="padding-top:4px"><button class="btn-primary" onclick="saveEdit()">💾 수정 저장</button></div>
   </div>
+</div>
 
+<!-- ════ 화면 9: 마일스톤 ════ -->
+<div id="screen-milestone" class="screen">
+  <div class="top-bar"><button class="back-btn" onclick="showHome()">←</button><h2>🏆 누적 고도 마일스톤</h2></div>
   <div class="milestone-hero">
     <div class="milestone-total">지금까지 오른 총 고도</div>
     <div><span class="milestone-num" id="ms-total-num">0</span><span class="milestone-unit">m</span></div>
   </div>
-
-  <!-- 산 시각화 -->
   <div class="mountain-scene" id="mountain-scene"></div>
-
-  <!-- 다음 목표 -->
   <div class="next-goal-card" id="next-goal-card">
     <div class="next-goal-label">🎯 다음 목표</div>
     <div class="next-goal-title" id="next-goal-title">-</div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="ms-progress-fill" style="width:0%"></div></div>
     <div class="progress-label"><span id="ms-progress-from">-</span><span id="ms-progress-pct">0%</span><span id="ms-progress-to">-</span></div>
   </div>
-
   <div class="milestone-section-title">달성 현황</div>
   <div class="milestone-grid" id="milestone-grid"></div>
 </div>
@@ -470,10 +578,18 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script>
+/* ════ 스플래시 ════ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const sp = document.getElementById('splash');
+    sp.classList.add('out');
+    setTimeout(() => sp.remove(), 700);
+  }, 2800);
+});
+
 /* ════ 초기화 ════ */
 firebase.initializeApp(firebaseConfig);
-const db      = firebase.firestore();
-const storage = firebase.storage();
+const db = firebase.firestore(), storage = firebase.storage();
 
 let familyCode      = localStorage.getItem('familyCode') || '';
 let hikeMode        = 'live';
@@ -482,27 +598,30 @@ let currentHike     = null;
 let timerInterval   = null;
 let watchId         = null;
 let hikePhotos      = [];
+let repPhotoIdx     = 0;
 let currentRecordId = null;
-let allRecords      = [];  // 홈 로드 시 캐시
+let allRecords      = [];
 
-let routePoints     = [];
-let lastRouteTime   = 0;
-const ROUTE_INTERVAL = 15000;
-const MAX_PHOTOS = 9;
-let repPhotoIdx = 0;  // 대표 사진 인덱스
+// 수정 관련
+let editExistingPhotos = [], editExistingThumbs = [], editNewPhotos = [], editRepIdx = 0;
 
+// 루트
+let routePoints  = [], lastRouteTime = 0;
+const ROUTE_INTERVAL = 15000, MAX_PHOTOS = 9;
+
+// Leaflet
 let hikeMap = null, hikePolyline = null, hikeMarker = null, detailMap = null;
 
-/* ════ 마일스톤 정의 ════ */
+/* ════ 마일스톤 ════ */
 const MILESTONES = [
-  { alt:  1000, emoji: '🌱', name: '첫 봉우리',       desc: '1,000m 돌파! 대단한 첫걸음이에요' },
-  { alt:  2000, emoji: '🥾', name: '산악 탐험가',     desc: '설악산 높이를 넘어섰어요!' },
-  { alt:  3000, emoji: '🏔️', name: '한라산 챔피언',   desc: '한국 최고봉 높이 돌파!' },
-  { alt:  5000, emoji: '☁️', name: '구름 위의 등산가', desc: '구름 위를 걷고 있어요' },
-  { alt:  8848, emoji: '🗻', name: '에베레스트 도전자', desc: '에베레스트 높이에 도달!' },
-  { alt: 10000, emoji: '🌟', name: '만미터 클럽',      desc: '10,000m! 전설이 되었어요' },
-  { alt: 20000, emoji: '🚀', name: '성층권 등산가',    desc: '성층권까지 올라갔어요!' },
-  { alt: 50000, emoji: '🌌', name: '우주 등산가',      desc: '우주를 향해 오르고 있어요' },
+  { alt:  1000, emoji: '🌱', name: '첫 봉우리' },
+  { alt:  2000, emoji: '🥾', name: '산악 탐험가' },
+  { alt:  3000, emoji: '🏔️', name: '한라산 챔피언' },
+  { alt:  5000, emoji: '☁️', name: '구름 위 등산가' },
+  { alt:  8848, emoji: '🗻', name: '에베레스트 도전자' },
+  { alt: 10000, emoji: '🌟', name: '만미터 클럽' },
+  { alt: 20000, emoji: '🚀', name: '성층권 등산가' },
+  { alt: 50000, emoji: '🌌', name: '우주 등산가' },
 ];
 
 /* ════ 화면 전환 ════ */
@@ -511,6 +630,25 @@ function showScreen(name) {
   document.getElementById('screen-' + name).classList.add('active');
   window.scrollTo(0, 0);
 }
+
+/* ════ 뒤로 가기 (Android 하드웨어 버튼) ════ */
+// replaceState + pushState 2단계로 항상 popstate가 발생하도록 보장
+window.history.replaceState({ snn: true, base: true }, '');
+window.history.pushState({ snn: true, layer: true }, '');
+
+window.addEventListener('popstate', (e) => {
+  const isHome = document.getElementById('screen-home').classList.contains('active');
+  if (isHome) {
+    if (confirm('앱을 종료하시겠어요?')) {
+      // 종료 허용 - 아무것도 하지 않음 (뒤로 가기 진행)
+    } else {
+      window.history.pushState({ snn: true, layer: true }, '');
+    }
+  } else {
+    showHome();
+    window.history.pushState({ snn: true, layer: true }, '');
+  }
+});
 
 /* ════ 가족 코드 ════ */
 function enterCode() {
@@ -527,46 +665,39 @@ document.getElementById('code-input').addEventListener('keyup', e => { if (e.key
 async function loadHome() {
   destroyDetailMap();
   showScreen('home');
-  pushHomeState();
   const list = document.getElementById('records-list');
   list.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><div>불러오는 중...</div></div>';
   try {
     const snap = await db.collection('hikes').doc(familyCode).collection('records')
-      .orderBy('createdAt', 'desc').limit(50).get();
+      .orderBy('createdAt','desc').limit(50).get();
     allRecords = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderStats(allRecords);
     renderRecordList(allRecords);
     renderRecentMountains(allRecords);
-  } catch (e) {
+  } catch(e) {
     list.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><div>불러오기 실패<br>${e.message}</div></div>`;
   }
 }
+function showHome() { loadHome(); }
 
 function renderStats(records) {
   document.getElementById('stat-count').textContent = records.length;
-  const total = records.reduce((s, r) => s + (r.maxAltitude || 0), 0);
+  const total = records.reduce((s,r) => s+(r.maxAltitude||0), 0);
   document.getElementById('stat-total-alt').textContent = total.toLocaleString();
-  const highest = records.reduce((b, r) => (!b || (r.maxAltitude||0) > (b.maxAltitude||0)) ? r : b, null);
+  const highest = records.reduce((b,r) => (!b||(r.maxAltitude||0)>(b.maxAltitude||0))?r:b, null);
   document.getElementById('stat-highest').textContent = highest ? highest.mountain : '-';
 }
 
 function renderRecordList(records) {
   const list = document.getElementById('records-list');
-  if (!records.length) {
-    list.innerHTML = '<div class="empty-state"><div class="icon">🌱</div><div>첫 등산 기록을 남겨보세요!</div></div>';
-    return;
-  }
+  if (!records.length) { list.innerHTML = '<div class="empty-state"><div class="icon">🌱</div><div>첫 등산 기록을 남겨보세요!</div></div>'; return; }
   list.innerHTML = records.map(r => {
-    // 썸네일 우선, 없으면 원본 사진
-    const thumbSrc = (r.thumbnails && r.thumbnails.length) ? r.thumbnails[0]
-                   : (r.photos && r.photos.length)      ? r.photos[0] : null;
-    const thumb = thumbSrc
-      ? `<div class="record-thumb"><img src="${thumbSrc}" alt="" loading="lazy"></div>`
-      : `<div class="record-thumb">🏔️</div>`;
-    const altText = r.maxAltitude ? r.maxAltitude + 'm' : '-';
+    const thumbSrc = (r.thumbnails&&r.thumbnails.length) ? r.thumbnails[0] : (r.photos&&r.photos.length) ? r.photos[0] : null;
+    const thumb = thumbSrc ? `<div class="record-thumb"><img src="${thumbSrc}" alt="" loading="lazy"></div>` : `<div class="record-thumb">🏔️</div>`;
+    const altText = r.maxAltitude ? r.maxAltitude+'m' : '-';
     const dur = r.duration ? formatDuration(r.duration) : '-';
     const badge = r.isPastRecord ? '<span class="record-badge">지난기록</span>' : '';
-    const routeBadge = r.route && r.route.length > 1 ? '<span class="record-badge">🗺️루트</span>' : '';
+    const routeBadge = r.route&&r.route.length>1 ? '<span class="record-badge">🗺️루트</span>' : '';
     return `<div class="record-item" onclick="showDetail('${r.id}')">
       ${thumb}
       <div class="record-info">
@@ -579,188 +710,109 @@ function renderRecordList(records) {
 }
 
 function renderRecentMountains(records) {
-  const seen = new Set(), recent = [];
-  for (const r of records) {
-    if (!seen.has(r.mountain)) { seen.add(r.mountain); recent.push(r.mountain); }
-    if (recent.length >= 5) break;
-  }
+  const seen=new Set(), recent=[];
+  for (const r of records) { if(!seen.has(r.mountain)){seen.add(r.mountain);recent.push(r.mountain);} if(recent.length>=5)break; }
   const wrap = document.getElementById('recent-mountains');
-  if (wrap) wrap.innerHTML = recent.map(m => `<div class="mountain-chip" onclick="selectRecentMountain('${m}')">${m}</div>`).join('');
+  if (wrap) wrap.innerHTML = recent.map(m=>`<div class="mountain-chip" onclick="selectRecentMountain('${m}')">${m}</div>`).join('');
   document.getElementById('recent-mountains-wrap').classList.toggle('hidden', !recent.length);
 }
 
-/* ════ 마일스톤 화면 ════ */
+/* ════ 마일스톤 ════ */
 function showMilestone() {
-  const totalAlt = allRecords.reduce((s, r) => s + (r.maxAltitude || 0), 0);
-
+  const totalAlt = allRecords.reduce((s,r)=>s+(r.maxAltitude||0), 0);
   document.getElementById('ms-total-num').textContent = totalAlt.toLocaleString();
-
-  // 다음 목표 계산
-  const nextMs = MILESTONES.find(m => m.alt > totalAlt) || MILESTONES[MILESTONES.length - 1];
-  const prevMs = [...MILESTONES].reverse().find(m => m.alt <= totalAlt);
+  const nextMs = MILESTONES.find(m=>m.alt>totalAlt) || MILESTONES[MILESTONES.length-1];
+  const prevMs = [...MILESTONES].reverse().find(m=>m.alt<=totalAlt);
   const fromAlt = prevMs ? prevMs.alt : 0;
-  const pct = Math.min(100, Math.round(((totalAlt - fromAlt) / (nextMs.alt - fromAlt)) * 100));
-
+  const pct = Math.min(100, Math.round(((totalAlt-fromAlt)/(nextMs.alt-fromAlt))*100));
   document.getElementById('next-goal-title').textContent = `${nextMs.emoji} ${nextMs.name} (${nextMs.alt.toLocaleString()}m)`;
-  document.getElementById('ms-progress-fill').style.width = pct + '%';
-  document.getElementById('ms-progress-from').textContent = fromAlt.toLocaleString() + 'm';
-  document.getElementById('ms-progress-pct').textContent = pct + '%';
-  document.getElementById('ms-progress-to').textContent = nextMs.alt.toLocaleString() + 'm';
-
-  if (totalAlt >= MILESTONES[MILESTONES.length - 1].alt) {
-    document.getElementById('next-goal-card').style.display = 'none';
-  }
-
-  // 산 SVG 생성
+  document.getElementById('ms-progress-fill').style.width = pct+'%';
+  document.getElementById('ms-progress-from').textContent = fromAlt.toLocaleString()+'m';
+  document.getElementById('ms-progress-pct').textContent = pct+'%';
+  document.getElementById('ms-progress-to').textContent = nextMs.alt.toLocaleString()+'m';
+  if (totalAlt >= MILESTONES[MILESTONES.length-1].alt) document.getElementById('next-goal-card').style.display='none';
   renderMountainSVG(totalAlt);
-
-  // 마일스톤 카드 생성
   renderMilestoneGrid(totalAlt);
-
   showScreen('milestone');
 }
 
 function renderMountainSVG(totalAlt) {
-  // 마일스톤 기준 고도 배열 (0 = 출발점)
-  const TRAIL_ALTS = [0, 1000, 2000, 3000, 5000, 8848, 10000, 20000, 50000];
-
-  // 트레일 웨이포인트: 산 내부에서 좌우 스위치백으로 균등 배치
-  // 각 점은 산 삼각형(꼭짓점 150,32 / 바닥 8,292 ~ 292,292) 내부에 안전하게 위치
+  const TRAIL_ALTS = [0,1000,2000,3000,5000,8848,10000,20000,50000];
   const TRAIL_PTS = [
-    { x: 150, y: 282 }, // 출발
-    { x: 108, y: 252 }, // 1,000m  ← 왼쪽
-    { x: 188, y: 222 }, // 2,000m  → 오른쪽
-    { x: 106, y: 192 }, // 3,000m  ← 왼쪽
-    { x: 186, y: 161 }, // 5,000m  → 오른쪽
-    { x: 118, y: 130 }, // 8,848m  ← 왼쪽
-    { x: 170, y: 100 }, // 10,000m → 오른쪽
-    { x: 148, y: 70  }, // 20,000m ← 중앙 왼쪽
-    { x: 150, y: 40  }, // 50,000m ▲ 정상
+    {x:150,y:282},{x:108,y:252},{x:188,y:222},{x:106,y:192},
+    {x:186,y:161},{x:118,y:130},{x:170,y:100},{x:148,y:70},{x:150,y:40}
   ];
-
-  // 등산가 위치: 현재 구간에서 선형 보간
-  let climberPos = { ...TRAIL_PTS[0] };
-  for (let i = 0; i < TRAIL_ALTS.length - 1; i++) {
-    if (totalAlt >= TRAIL_ALTS[i] && totalAlt < TRAIL_ALTS[i + 1]) {
-      const t = (totalAlt - TRAIL_ALTS[i]) / (TRAIL_ALTS[i + 1] - TRAIL_ALTS[i]);
-      const p1 = TRAIL_PTS[i], p2 = TRAIL_PTS[i + 1];
-      climberPos = { x: p1.x + (p2.x - p1.x) * t, y: p1.y + (p2.y - p1.y) * t };
+  let climberPos = {...TRAIL_PTS[0]};
+  for (let i=0;i<TRAIL_ALTS.length-1;i++) {
+    if (totalAlt>=TRAIL_ALTS[i] && totalAlt<TRAIL_ALTS[i+1]) {
+      const t=(totalAlt-TRAIL_ALTS[i])/(TRAIL_ALTS[i+1]-TRAIL_ALTS[i]);
+      const p1=TRAIL_PTS[i],p2=TRAIL_PTS[i+1];
+      climberPos={x:p1.x+(p2.x-p1.x)*t, y:p1.y+(p2.y-p1.y)*t};
       break;
     }
   }
-  if (totalAlt >= TRAIL_ALTS[TRAIL_ALTS.length - 1]) climberPos = { ...TRAIL_PTS[TRAIL_PTS.length - 1] };
-
-  // 전체 트레일 경로
-  const fullPath = TRAIL_PTS.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
-
-  // 달성 구간 경로 (출발 → 등산가 현재 위치)
-  const achPts = [TRAIL_PTS[0]];
-  for (let i = 0; i < MILESTONES.length; i++) {
-    if (totalAlt >= MILESTONES[i].alt) achPts.push(TRAIL_PTS[i + 1]);
-    else break;
-  }
-  const last = achPts[achPts.length - 1];
-  if (Math.abs(climberPos.x - last.x) > 0.5 || Math.abs(climberPos.y - last.y) > 0.5) achPts.push(climberPos);
-  const achPath = achPts.length > 1 ? achPts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') : '';
-
-  // 마일스톤 점 + 라벨 생성
-  const nextIdx = MILESTONES.findIndex(m => totalAlt < m.alt);
-  const msDots = MILESTONES.map((m, i) => {
-    const pt = TRAIL_PTS[i + 1];
-    const achieved = totalAlt >= m.alt;
-    const isNext   = nextIdx === i;
-    const dotR    = (achieved || isNext) ? 7 : 5;
-    const dotFill = achieved ? '#74C69D' : isNext ? '#F9C74F' : 'rgba(255,255,255,0.28)';
-    const opacity = achieved ? 1 : isNext ? 1 : 0.5;
-    // 트레일 점 x 기준으로 라벨 방향 결정
-    const isRight = pt.x >= 150;
-    const lx = isRight ? pt.x + 15 : pt.x - 15;
-    const anchor = isRight ? 'start' : 'end';
-    const altLabel = m.alt >= 1000
-      ? (m.alt % 1000 === 0 ? m.alt / 1000 + 'k' : (m.alt / 1000).toFixed(1) + 'k')
-      : m.alt;
-    return `
-      <circle cx="${pt.x}" cy="${pt.y}" r="${dotR}" fill="${dotFill}" stroke="white" stroke-width="2" opacity="${opacity}"/>
-      ${achieved ? `<text x="${pt.x}" y="${pt.y + 4.5}" text-anchor="middle" font-size="9" fill="#1B4332" font-weight="bold">✓</text>` : ''}
-      <text x="${lx}" y="${pt.y + 4}" text-anchor="${anchor}" font-size="11" fill="white" opacity="${opacity}" font-family="Jua,sans-serif">${altLabel}m</text>`;
+  if (totalAlt>=TRAIL_ALTS[TRAIL_ALTS.length-1]) climberPos={...TRAIL_PTS[TRAIL_PTS.length-1]};
+  const fullPath = TRAIL_PTS.map((p,i)=>`${i===0?'M':'L'}${p.x},${p.y}`).join(' ');
+  const achPts=[TRAIL_PTS[0]];
+  for (let i=0;i<MILESTONES.length;i++){if(totalAlt>=MILESTONES[i].alt)achPts.push(TRAIL_PTS[i+1]);else break;}
+  const last=achPts[achPts.length-1];
+  if(Math.abs(climberPos.x-last.x)>0.5||Math.abs(climberPos.y-last.y)>0.5)achPts.push(climberPos);
+  const achPath=achPts.length>1?achPts.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '):'';
+  const nextIdx=MILESTONES.findIndex(m=>totalAlt<m.alt);
+  const msDots=MILESTONES.map((m,i)=>{
+    const pt=TRAIL_PTS[i+1];
+    const achieved=totalAlt>=m.alt, isNext=nextIdx===i;
+    const dotR=(achieved||isNext)?7:5;
+    const dotFill=achieved?'#74C69D':isNext?'#F9C74F':'rgba(255,255,255,0.28)';
+    const opacity=achieved?1:isNext?1:0.5;
+    const isRight=pt.x>=150, lx=isRight?pt.x+15:pt.x-15, anchor=isRight?'start':'end';
+    const altLabel=m.alt>=1000?(m.alt%1000===0?m.alt/1000+'k':(m.alt/1000).toFixed(1)+'k'):m.alt;
+    return `<circle cx="${pt.x}" cy="${pt.y}" r="${dotR}" fill="${dotFill}" stroke="white" stroke-width="2" opacity="${opacity}"/>
+      ${achieved?`<text x="${pt.x}" y="${pt.y+4.5}" text-anchor="middle" font-size="9" fill="#1B4332" font-weight="bold">✓</text>`:''}
+      <text x="${lx}" y="${pt.y+4}" text-anchor="${anchor}" font-size="11" fill="white" opacity="${opacity}" font-family="Jua,sans-serif">${altLabel}m</text>`;
   }).join('');
-
-  document.getElementById('mountain-scene').innerHTML = `
+  document.getElementById('mountain-scene').innerHTML=`
   <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#081c2e"/>
-        <stop offset="75%" stop-color="#1a3a5c"/>
-        <stop offset="100%" stop-color="#1B4332"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#081c2e"/><stop offset="75%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#1B4332"/>
+    </linearGradient></defs>
     <rect width="300" height="320" fill="url(#skyG)"/>
-    <!-- 별 (고정 위치) -->
-    <circle cx="28" cy="18" r="1.5" fill="white" opacity="0.7"/>
-    <circle cx="68" cy="12" r="1.1" fill="white" opacity="0.55"/>
-    <circle cx="118" cy="26" r="1.3" fill="white" opacity="0.65"/>
-    <circle cx="198" cy="16" r="1.5" fill="white" opacity="0.8"/>
-    <circle cx="250" cy="30" r="1" fill="white" opacity="0.5"/>
-    <circle cx="272" cy="10" r="1.3" fill="white" opacity="0.7"/>
-    <circle cx="42" cy="48" r="1" fill="white" opacity="0.4"/>
-    <circle cx="240" cy="52" r="1.2" fill="white" opacity="0.5"/>
-    <circle cx="88" cy="42" r="0.9" fill="white" opacity="0.6"/>
-    <circle cx="160" cy="22" r="1" fill="white" opacity="0.45"/>
-    <!-- 산 본체 -->
+    <circle cx="28" cy="18" r="1.5" fill="white" opacity="0.7"/><circle cx="68" cy="12" r="1.1" fill="white" opacity="0.55"/>
+    <circle cx="118" cy="26" r="1.3" fill="white" opacity="0.65"/><circle cx="198" cy="16" r="1.5" fill="white" opacity="0.8"/>
+    <circle cx="250" cy="30" r="1" fill="white" opacity="0.5"/><circle cx="272" cy="10" r="1.3" fill="white" opacity="0.7"/>
+    <circle cx="42" cy="48" r="1" fill="white" opacity="0.4"/><circle cx="240" cy="52" r="1.2" fill="white" opacity="0.5"/>
     <polygon points="150,32 292,292 8,292" fill="#1B4332"/>
     <polygon points="150,32 292,292 8,292" fill="#2D6A4F" opacity="0.4"/>
-    <!-- 정상 눈 -->
     <polygon points="150,32 183,88 117,88" fill="white" opacity="0.88"/>
     <polygon points="150,32 167,63 133,63" fill="white" opacity="0.96"/>
-    <!-- 전체 트레일 (흰 점선) -->
-    <path d="${fullPath}" fill="none" stroke="rgba(255,255,255,0.22)"
-      stroke-width="2.5" stroke-dasharray="5,5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- 달성 트레일 (초록 실선) -->
-    ${achPath ? `<path d="${achPath}" fill="none" stroke="#74C69D"
-      stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
-    <!-- 마일스톤 점 + 라벨 -->
+    <path d="${fullPath}" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.5" stroke-dasharray="5,5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${achPath?`<path d="${achPath}" fill="none" stroke="#74C69D" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`:''}
     ${msDots}
-    <!-- 등산가 -->
     <circle cx="${climberPos.x.toFixed(1)}" cy="${climberPos.y.toFixed(1)}" r="16" fill="rgba(249,199,79,0.2)"/>
     <circle cx="${climberPos.x.toFixed(1)}" cy="${climberPos.y.toFixed(1)}" r="10" fill="#F9C74F" stroke="white" stroke-width="2.5"/>
-    <text x="${climberPos.x.toFixed(1)}" y="${(climberPos.y + 5.5).toFixed(1)}" text-anchor="middle" font-size="12">🧗</text>
-    <!-- 지면 -->
+    <text x="${climberPos.x.toFixed(1)}" y="${(climberPos.y+5.5).toFixed(1)}" text-anchor="middle" font-size="12">🧗</text>
     <rect x="0" y="292" width="300" height="28" fill="#1B4332"/>
     <text x="150" y="310" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.45)" font-family="Jua,sans-serif">🏁 출발점</text>
   </svg>`;
 }
 
 function renderMilestoneGrid(totalAlt) {
-  const grid = document.getElementById('milestone-grid');
-  const nextIdx = MILESTONES.findIndex(m => m.alt > totalAlt);
-
-  grid.innerHTML = MILESTONES.map((m, i) => {
-    const achieved = totalAlt >= m.alt;
-    const isCurrent = i === nextIdx;
-    const cls = achieved ? 'achieved' : isCurrent ? 'current' : 'locked';
-    const badge = achieved ? `<span class="ms-badge done">✅ 달성</span>`
-                : isCurrent ? `<span class="ms-badge next">🎯 도전 중</span>`
-                : `<span class="ms-badge lock">🔒 미달성</span>`;
-
-    // 달성 날짜: 해당 고도를 처음 누적한 날짜 계산
-    let dateStr = '';
-    if (achieved) {
-      let cumAlt = 0;
-      const sorted = [...allRecords].sort((a, b) => {
-        if (!a.date || !b.date) return 0;
-        return a.date.localeCompare(b.date);
-      });
-      for (const r of sorted) {
-        cumAlt += (r.maxAltitude || 0);
-        if (cumAlt >= m.alt) { dateStr = r.date; break; }
-      }
+  const nextIdx = MILESTONES.findIndex(m=>m.alt>totalAlt);
+  document.getElementById('milestone-grid').innerHTML = MILESTONES.map((m,i)=>{
+    const achieved=totalAlt>=m.alt, isCurrent=i===nextIdx;
+    const cls=achieved?'achieved':isCurrent?'current':'locked';
+    const badge=achieved?`<span class="ms-badge done">✅ 달성</span>`:isCurrent?`<span class="ms-badge next">🎯 도전 중</span>`:`<span class="ms-badge lock">🔒 미달성</span>`;
+    let dateStr='';
+    if(achieved){
+      let cum=0;
+      const sorted=[...allRecords].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+      for(const r of sorted){cum+=(r.maxAltitude||0);if(cum>=m.alt){dateStr=r.date;break;}}
     }
-
     return `<div class="ms-card ${cls}">
       <div class="ms-emoji">${m.emoji}</div>
       <div class="ms-alt">${m.alt.toLocaleString()}m</div>
       <div class="ms-name">${m.name}</div>
-      ${dateStr ? `<div class="ms-date">${dateStr} 달성</div>` : ''}
+      ${dateStr?`<div class="ms-date">${dateStr} 달성</div>`:''}
       ${badge}
     </div>`;
   }).join('');
@@ -768,465 +820,444 @@ function renderMilestoneGrid(totalAlt) {
 
 /* ════ 새 등산 ════ */
 function showStart() {
-  hikePhotos = []; selectedMtn = { name: '', address: '' };
-  document.getElementById('mountain-search-input').value = '';
-  document.getElementById('search-results').innerHTML = '';
+  hikePhotos=[]; repPhotoIdx=0; selectedMtn={name:'',address:''};
+  document.getElementById('mountain-search-input').value='';
+  document.getElementById('search-results').innerHTML='';
   document.getElementById('search-results').classList.add('hidden');
   document.getElementById('selected-mountain-wrap').classList.add('hidden');
   showScreen('start');
 }
 function selectMode(mode) {
-  hikeMode = mode;
-  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  hikeMode=mode;
+  document.querySelectorAll('.mode-tab').forEach(b=>b.classList.remove('active'));
   document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
-  document.getElementById('start-action-btn').textContent = mode === 'live' ? '⛰️ 등산 시작' : '📝 기록 입력 →';
+  document.getElementById('start-action-btn').textContent = mode==='live'?'⛰️ 등산 시작':'📝 기록 입력 →';
 }
-
 async function searchMountain() {
-  const q = document.getElementById('mountain-search-input').value.trim();
-  if (!q) return;
-  const resultsEl = document.getElementById('search-results');
-  resultsEl.classList.remove('hidden');
-  resultsEl.innerHTML = '<div class="search-empty">검색 중...</div>';
+  const q=document.getElementById('mountain-search-input').value.trim(); if(!q)return;
+  const resultsEl=document.getElementById('search-results');
+  resultsEl.classList.remove('hidden'); resultsEl.innerHTML='<div class="search-empty">검색 중...</div>';
   try {
-    const resp = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&accept-language=ko&countrycodes=kr&limit=10`,
-      { headers: { 'Accept-Language': 'ko' } }
-    );
-    const places = await resp.json();
-    if (!places.length) { resultsEl.innerHTML = '<div class="search-empty">검색 결과가 없습니다</div>'; return; }
-    window._searchResults = places;
-    resultsEl.innerHTML = places.map((r, i) => {
-      const name = r.name || r.display_name.split(',')[0].trim();
+    const resp=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&accept-language=ko&countrycodes=kr&limit=10`,{headers:{'Accept-Language':'ko'}});
+    const places=await resp.json();
+    if(!places.length){resultsEl.innerHTML='<div class="search-empty">검색 결과가 없습니다</div>';return;}
+    window._searchResults=places;
+    resultsEl.innerHTML=places.map((r,i)=>{
+      const name=r.name||r.display_name.split(',')[0].trim();
       return `<div class="search-item" onclick="selectSearchResult(${i})"><div class="s-name">${name}</div><div class="s-addr">${r.display_name}</div></div>`;
     }).join('');
-  } catch(e) { resultsEl.innerHTML = `<div class="search-empty">검색 실패: ${e.message}</div>`; }
+  } catch(e){resultsEl.innerHTML=`<div class="search-empty">검색 실패: ${e.message}</div>`;}
 }
-
 function selectSearchResult(idx) {
-  const r = window._searchResults[idx];
-  const name = r.name || r.display_name.split(',')[0].trim();
-  selectedMtn = { name, address: r.display_name };
-  document.getElementById('mountain-search-input').value = name;
+  const r=window._searchResults[idx], name=r.name||r.display_name.split(',')[0].trim();
+  selectedMtn={name,address:r.display_name};
+  document.getElementById('mountain-search-input').value=name;
   document.getElementById('search-results').classList.add('hidden');
-  document.getElementById('selected-mountain-name').textContent = name;
+  document.getElementById('selected-mountain-name').textContent=name;
   document.getElementById('selected-mountain-wrap').classList.remove('hidden');
 }
 function selectRecentMountain(name) {
-  selectedMtn = { name, address: '' };
-  document.getElementById('mountain-search-input').value = name;
-  document.getElementById('selected-mountain-name').textContent = name;
+  selectedMtn={name,address:''};
+  document.getElementById('mountain-search-input').value=name;
+  document.getElementById('selected-mountain-name').textContent=name;
   document.getElementById('selected-mountain-wrap').classList.remove('hidden');
   document.getElementById('search-results').classList.add('hidden');
 }
 function clearSelectedMountain() {
-  selectedMtn = { name: '', address: '' };
-  document.getElementById('mountain-search-input').value = '';
+  selectedMtn={name:'',address:''};
+  document.getElementById('mountain-search-input').value='';
   document.getElementById('selected-mountain-wrap').classList.add('hidden');
 }
 function proceedFromSearch() {
-  if (!selectedMtn.name) {
-    const typed = document.getElementById('mountain-search-input').value.trim();
-    if (!typed) { alert('산 이름을 입력하거나 검색해주세요.'); return; }
-    selectedMtn = { name: typed, address: '' };
-  }
-  if (hikeMode === 'live') beginHike(); else showPastForm();
+  if(!selectedMtn.name){const t=document.getElementById('mountain-search-input').value.trim();if(!t){alert('산 이름을 입력하거나 검색해주세요.');return;}selectedMtn={name:t,address:''};}
+  if(hikeMode==='live')beginHike(); else showPastForm();
 }
 
 /* ════ 실시간 등산 ════ */
 function beginHike() {
-  routePoints = []; lastRouteTime = 0; destroyHikeMap(); hikePhotos = []; repPhotoIdx = 0;
-  currentHike = { mountain: selectedMtn.name, startTime: new Date(), endTime: null, duration: 0, maxAlt: null, startAlt: null, currentAlt: null };
-  document.getElementById('hiking-mountain-title').textContent = '🏔️ ' + selectedMtn.name;
-  document.getElementById('timer').textContent = '00:00:00';
-  document.getElementById('current-alt').textContent = '--';
-  document.getElementById('max-alt').textContent = '--';
-  document.getElementById('gps-status').textContent = '📡 GPS 연결 중...';
-  document.getElementById('gps-status').className = 'gps-status searching';
-  document.getElementById('hike-map-wrap').classList.add('hidden');
-  document.getElementById('route-point-count').textContent = '';
-  renderHikePhotos();
-  showScreen('hiking');
-  startTimer(); startGPS();
+  routePoints=[]; lastRouteTime=0; destroyHikeMap(); hikePhotos=[]; repPhotoIdx=0;
+  currentHike={mountain:selectedMtn.name, startTime:new Date(), endTime:null, duration:0, maxAlt:null, startAlt:null, currentAlt:null};
+  document.getElementById('hiking-mountain-title').textContent='🏔️ '+selectedMtn.name;
+  document.getElementById('timer').textContent='00:00:00';
+  document.getElementById('current-alt').textContent='--'; document.getElementById('max-alt').textContent='--';
+  document.getElementById('gps-status').textContent='📡 GPS 연결 중...'; document.getElementById('gps-status').className='gps-status searching';
+  document.getElementById('hike-map-wrap').classList.add('hidden'); document.getElementById('route-point-count').textContent='';
+  renderHikePhotos(); showScreen('hiking'); startTimer(); startGPS();
 }
-
 function startTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if (!currentHike) return;
-    const e = Math.floor((Date.now() - currentHike.startTime.getTime()) / 1000);
-    document.getElementById('timer').textContent = formatDurationHMS(e);
-  }, 1000);
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{if(!currentHike)return;const e=Math.floor((Date.now()-currentHike.startTime.getTime())/1000);document.getElementById('timer').textContent=formatDurationHMS(e);},1000);
 }
-function stopTimer() { if (timerInterval) { clearInterval(timerInterval); timerInterval = null; } }
-
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
 function startGPS() {
-  if (!navigator.geolocation) {
-    document.getElementById('gps-status').textContent = '⚠️ 이 기기는 위치를 지원하지 않습니다';
-    document.getElementById('gps-status').className = 'gps-status'; return;
-  }
-  watchId = navigator.geolocation.watchPosition(pos => {
-    const { latitude: lat, longitude: lng, altitude: alt, altitudeAccuracy: acc } = pos.coords;
-    const now = Date.now();
-    if (now - lastRouteTime >= ROUTE_INTERVAL || lastRouteTime === 0) {
-      routePoints.push({ lat, lng, alt: alt ? Math.round(alt) : null, t: now });
-      lastRouteTime = now;
-      updateHikeMap(lat, lng);
-      document.getElementById('route-point-count').textContent = routePoints.length + '개 포인트';
+  if(!navigator.geolocation){document.getElementById('gps-status').textContent='⚠️ 이 기기는 위치를 지원하지 않습니다';document.getElementById('gps-status').className='gps-status';return;}
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    const{latitude:lat,longitude:lng,altitude:alt,altitudeAccuracy:acc}=pos.coords;
+    const now=Date.now();
+    if(now-lastRouteTime>=ROUTE_INTERVAL||lastRouteTime===0){
+      routePoints.push({lat,lng,alt:alt?Math.round(alt):null,t:now});
+      lastRouteTime=now; updateHikeMap(lat,lng);
+      document.getElementById('route-point-count').textContent=routePoints.length+'개 포인트';
     }
-    if (alt !== null && alt !== undefined) {
-      const r = Math.round(alt);
-      currentHike.currentAlt = r;
-      if (currentHike.startAlt === null) currentHike.startAlt = r;
-      if (currentHike.maxAlt === null || r > currentHike.maxAlt) currentHike.maxAlt = r;
-      document.getElementById('current-alt').textContent = r.toLocaleString();
-      document.getElementById('max-alt').textContent = currentHike.maxAlt.toLocaleString();
-      document.getElementById('alt-accuracy').textContent = acc ? '±' + Math.round(acc) + 'm' : '';
-      document.getElementById('gps-status').textContent = '✅ GPS 연결됨';
-      document.getElementById('gps-status').className = 'gps-status';
+    if(alt!==null&&alt!==undefined){
+      const r=Math.round(alt);
+      currentHike.currentAlt=r;
+      if(currentHike.startAlt===null)currentHike.startAlt=r;
+      if(currentHike.maxAlt===null||r>currentHike.maxAlt)currentHike.maxAlt=r;
+      document.getElementById('current-alt').textContent=r.toLocaleString();
+      document.getElementById('max-alt').textContent=currentHike.maxAlt.toLocaleString();
+      document.getElementById('alt-accuracy').textContent=acc?'±'+Math.round(acc)+'m':'';
+      document.getElementById('gps-status').textContent='✅ GPS 연결됨';
+      document.getElementById('gps-status').className='gps-status';
     } else {
-      document.getElementById('gps-status').textContent = '📍 위치 수신 중 (고도 미지원)';
-      document.getElementById('gps-status').className = 'gps-status';
+      document.getElementById('gps-status').textContent='📍 위치 수신 중 (고도 미지원)';
+      document.getElementById('gps-status').className='gps-status';
     }
-  }, err => {
-    const msgs = { 1:'위치 권한을 허용해주세요', 2:'GPS 신호를 찾을 수 없어요', 3:'GPS 시간 초과' };
-    document.getElementById('gps-status').textContent = '⚠️ ' + (msgs[err.code] || 'GPS 오류');
-    document.getElementById('gps-status').className = 'gps-status';
-  }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+  },err=>{
+    const msgs={1:'위치 권한을 허용해주세요',2:'GPS 신호를 찾을 수 없어요',3:'GPS 시간 초과'};
+    document.getElementById('gps-status').textContent='⚠️ '+(msgs[err.code]||'GPS 오류');
+    document.getElementById('gps-status').className='gps-status';
+  },{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
 }
-function stopGPS() { if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; } }
-
-function initHikeMap(lat, lng) {
+function stopGPS(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null;}}
+function initHikeMap(lat,lng){
   document.getElementById('hike-map-wrap').classList.remove('hidden');
-  setTimeout(() => {
-    if (hikeMap) return;
-    hikeMap = L.map('hike-map', { zoomControl: true, attributionControl: false }).setView([lat, lng], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(hikeMap);
-    L.circleMarker([lat, lng], { color: '#1B4332', fillColor: '#52B788', fillOpacity: 1, radius: 9 }).bindPopup('🟢 출발').addTo(hikeMap);
-    hikePolyline = L.polyline([[lat, lng]], { color: '#2D6A4F', weight: 5, opacity: 0.85 }).addTo(hikeMap);
-    hikeMarker = L.circleMarker([lat, lng], { color: '#1B4332', fillColor: '#FFFFFF', fillOpacity: 1, radius: 7 }).addTo(hikeMap);
-  }, 150);
+  setTimeout(()=>{
+    if(hikeMap)return;
+    hikeMap=L.map('hike-map',{zoomControl:true,attributionControl:false}).setView([lat,lng],15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(hikeMap);
+    L.circleMarker([lat,lng],{color:'#1B4332',fillColor:'#52B788',fillOpacity:1,radius:9}).bindPopup('🟢 출발').addTo(hikeMap);
+    hikePolyline=L.polyline([[lat,lng]],{color:'#2D6A4F',weight:5,opacity:0.85}).addTo(hikeMap);
+    hikeMarker=L.circleMarker([lat,lng],{color:'#1B4332',fillColor:'#FFFFFF',fillOpacity:1,radius:7}).addTo(hikeMap);
+  },150);
 }
-function updateHikeMap(lat, lng) {
-  if (!hikeMap) { initHikeMap(lat, lng); return; }
-  hikePolyline.addLatLng([lat, lng]);
-  hikeMarker.setLatLng([lat, lng]);
-  hikeMap.panTo([lat, lng]);
+function updateHikeMap(lat,lng){if(!hikeMap){initHikeMap(lat,lng);return;}hikePolyline.addLatLng([lat,lng]);hikeMarker.setLatLng([lat,lng]);hikeMap.panTo([lat,lng]);}
+function destroyHikeMap(){if(hikeMap){hikeMap.remove();hikeMap=null;hikePolyline=null;hikeMarker=null;}}
+function confirmFinish(){
+  if(!confirm('등산을 완료할까요?'))return;
+  stopTimer();stopGPS();destroyHikeMap();
+  currentHike.endTime=new Date(); currentHike.duration=Math.floor((currentHike.endTime-currentHike.startTime)/1000);
+  const dist=calcDistance(routePoints);
+  document.getElementById('finish-mountain').textContent='🏔️ '+currentHike.mountain;
+  document.getElementById('finish-time').textContent=formatDuration(currentHike.duration);
+  document.getElementById('finish-alt').textContent=currentHike.maxAlt!==null?currentHike.maxAlt+'m':'-';
+  document.getElementById('finish-distance').textContent=dist>0?dist.toFixed(1)+'km':'-';
+  document.getElementById('memo-input').value=''; renderFinishPhotos(); showScreen('finish');
 }
-function destroyHikeMap() {
-  if (hikeMap) { hikeMap.remove(); hikeMap = null; hikePolyline = null; hikeMarker = null; }
-}
-
-function confirmFinish() {
-  if (!confirm('등산을 완료할까요?')) return;
-  stopTimer(); stopGPS(); destroyHikeMap();
-  currentHike.endTime = new Date();
-  currentHike.duration = Math.floor((currentHike.endTime - currentHike.startTime) / 1000);
-  const dist = calcDistance(routePoints);
-  document.getElementById('finish-mountain').textContent = '🏔️ ' + currentHike.mountain;
-  document.getElementById('finish-time').textContent = formatDuration(currentHike.duration);
-  document.getElementById('finish-alt').textContent = currentHike.maxAlt !== null ? currentHike.maxAlt + 'm' : '-';
-  document.getElementById('finish-distance').textContent = dist > 0 ? dist.toFixed(1) + 'km' : '-';
-  document.getElementById('memo-input').value = '';
-  renderFinishPhotos();
-  showScreen('finish');
-}
-function cancelSave() {
-  if (!confirm('기록을 삭제할까요?')) return;
-  currentHike = null; hikePhotos = []; routePoints = []; loadHome();
-}
+function cancelSave(){if(!confirm('기록을 삭제할까요?'))return;currentHike=null;hikePhotos=[];routePoints=[];loadHome();}
 
 /* ════ 지난 기록 ════ */
-function showPastForm() {
-  document.getElementById('past-mountain-badge').textContent = '🏔️ ' + selectedMtn.name;
-  document.getElementById('past-date').value = formatDate(new Date());
-  document.getElementById('past-hours').value = '';
-  document.getElementById('past-minutes').value = '';
-  document.getElementById('past-altitude').value = '';
-  document.getElementById('past-memo').value = '';
-  hikePhotos = []; repPhotoIdx = 0; renderPastPhotos();
-  showScreen('past');
+function showPastForm(){
+  document.getElementById('past-mountain-badge').textContent='🏔️ '+selectedMtn.name;
+  document.getElementById('past-date').value=formatDate(new Date());
+  ['past-hours','past-minutes','past-altitude','past-memo'].forEach(id=>document.getElementById(id).value='');
+  hikePhotos=[]; repPhotoIdx=0; renderPastPhotos(); showScreen('past');
 }
-function addPastPhotos(input) { addPhotosFromInput(input, renderPastPhotos); }
-function renderPastPhotos() {
-  document.getElementById('past-photos').innerHTML =
-    renderPhotoGrid(hikePhotos, 'past') + addPhotoBtn('past');
-}
-async function savePastHike() {
-  const date = document.getElementById('past-date').value;
-  if (!date) { alert('날짜를 입력해주세요.'); return; }
-  const hours = parseInt(document.getElementById('past-hours').value) || 0;
-  const mins  = parseInt(document.getElementById('past-minutes').value) || 0;
-  const duration = hours * 3600 + mins * 60;
-  const altitude = parseInt(document.getElementById('past-altitude').value) || null;
-  const memo = document.getElementById('past-memo').value.trim();
+function addPastPhotos(input){addPhotosFromInput(input,renderPastPhotos);}
+function renderPastPhotos(){document.getElementById('past-photos').innerHTML=renderPhotoGrid(hikePhotos,'past')+addPhotoBtn('past');}
+async function savePastHike(){
+  const date=document.getElementById('past-date').value; if(!date){alert('날짜를 입력해주세요.');return;}
+  const h=parseInt(document.getElementById('past-hours').value)||0;
+  const m=parseInt(document.getElementById('past-minutes').value)||0;
+  const duration=h*3600+m*60;
+  const altitude=parseInt(document.getElementById('past-altitude').value)||null;
+  const memo=document.getElementById('past-memo').value.trim();
   showLoading('사진 업로드 중...');
   try {
-    const { urls, thumbURLs } = await uploadPhotos();
+    const{urls,thumbURLs}=await uploadPhotos();
     setLoadingMsg('기록 저장 중...');
     await db.collection('hikes').doc(familyCode).collection('records').add({
-      mountain: selectedMtn.name, date, duration,
-      maxAltitude: altitude, photos: urls, thumbnails: thumbURLs, memo,
-      isPastRecord: true, route: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      mountain:selectedMtn.name,date,duration,maxAltitude:altitude,photos:urls,thumbnails:thumbURLs,memo,
+      isPastRecord:true,route:[],createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
-    hideLoading(); hikePhotos = []; loadHome();
-  } catch (e) { hideLoading(); alert('저장 실패: ' + e.message); }
+    hideLoading();hikePhotos=[];loadHome();
+  }catch(e){hideLoading();alert('저장 실패: '+e.message);}
 }
 
-/* ════ 사진 ════ */
+/* ════ 사진 공통 ════ */
 function addPhotosFromInput(input, renderFn) {
-  const remaining = MAX_PHOTOS - hikePhotos.length;
-  if (remaining <= 0) { alert(`사진은 최대 ${MAX_PHOTOS}장까지 추가할 수 있어요.`); input.value = ''; return; }
-  const files = Array.from(input.files).slice(0, remaining);
-  if (input.files.length > remaining) alert(`최대 ${MAX_PHOTOS}장까지 가능해요. ${remaining}장만 추가됩니다.`);
-  for (const f of files) hikePhotos.push(f);
-  renderFn();
-  input.value = '';
+  const remaining=MAX_PHOTOS-hikePhotos.length;
+  if(remaining<=0){alert(`사진은 최대 ${MAX_PHOTOS}장까지 가능해요.`);input.value='';return;}
+  const files=Array.from(input.files).slice(0,remaining);
+  if(input.files.length>remaining)alert(`최대 ${MAX_PHOTOS}장까지 가능해요. ${remaining}장만 추가됩니다.`);
+  for(const f of files)hikePhotos.push(f);
+  renderFn(); input.value='';
 }
-function addHikePhotos(input) { addPhotosFromInput(input, renderHikePhotos); }
-function addFinishPhotos(input) { addPhotosFromInput(input, renderFinishPhotos); }
-function renderHikePhotos() {
-  document.getElementById('hiking-photos').innerHTML =
-    renderPhotoGrid(hikePhotos, 'hiking') + addPhotoBtn('hike');
-}
-function renderFinishPhotos() {
-  document.getElementById('finish-photos').innerHTML =
-    renderPhotoGrid(hikePhotos, 'finish') + addPhotoBtn('finish');
-}
+function addHikePhotos(input){addPhotosFromInput(input,renderHikePhotos);}
+function addFinishPhotos(input){addPhotosFromInput(input,renderFinishPhotos);}
+function renderHikePhotos(){document.getElementById('hiking-photos').innerHTML=renderPhotoGrid(hikePhotos,'hiking')+addPhotoBtn('hike');}
+function renderFinishPhotos(){document.getElementById('finish-photos').innerHTML=renderPhotoGrid(hikePhotos,'finish')+addPhotoBtn('finish');}
 function renderPhotoGrid(photos, prefix) {
-  return photos.map((f, i) => {
-    const url = URL.createObjectURL(f);
-    const isRep = i === repPhotoIdx;
-    return `<div class="photo-thumb-wrap${isRep ? ' is-rep' : ''}">
+  return photos.map((f,i)=>{
+    const url=URL.createObjectURL(f), isRep=i===repPhotoIdx;
+    return `<div class="photo-thumb-wrap${isRep?' is-rep':''}">
       <img class="photo-thumb" src="${url}" alt="">
       <button class="photo-del" onclick="removePhoto(${i},'${prefix}')">✕</button>
-      <button class="photo-rep" onclick="setRepPhoto(${i},'${prefix}')" title="대표 사진으로 설정">${isRep ? '⭐' : '☆'}</button>
+      <button class="photo-rep" onclick="setRepPhoto(${i},'${prefix}')">${isRep?'⭐':'☆'}</button>
     </div>`;
   }).join('');
 }
-
-function addPhotoBtn(prefix) {
-  const isFull = hikePhotos.length >= MAX_PHOTOS;
-  return `<div class="add-photo-btn${isFull ? ' disabled' : ''}"
-    onclick="${isFull ? '' : `document.getElementById('photo-input-${prefix}').click()`}">
-    <span class="icon">📷</span>
-    <span>${isFull ? '최대 9장' : `추가 (${hikePhotos.length}/${MAX_PHOTOS})`}</span>
+function addPhotoBtn(prefix){
+  const full=hikePhotos.length>=MAX_PHOTOS;
+  return `<div class="add-photo-btn${full?' full':''}" onclick="${full?'':''}"
+    ${full?'':'onclick="document.getElementById(\'photo-input-'+prefix+'\').click()"'}>
+    <span class="icon">📷</span><span>${full?'최대 9장':`추가 (${hikePhotos.length}/${MAX_PHOTOS})`}</span>
   </div>`;
 }
-
-function setRepPhoto(idx, prefix) {
-  repPhotoIdx = idx;
-  if (prefix === 'hiking') renderHikePhotos();
-  else if (prefix === 'finish') renderFinishPhotos();
-  else renderPastPhotos();
+function setRepPhoto(idx, prefix){repPhotoIdx=idx;if(prefix==='hiking')renderHikePhotos();else if(prefix==='finish')renderFinishPhotos();else renderPastPhotos();}
+function removePhoto(idx, prefix){
+  hikePhotos.splice(idx,1);
+  if(repPhotoIdx===idx)repPhotoIdx=0; else if(repPhotoIdx>idx)repPhotoIdx--;
+  if(prefix==='hiking')renderHikePhotos(); else if(prefix==='finish')renderFinishPhotos(); else renderPastPhotos();
 }
 
-function removePhoto(idx, prefix) {
-  hikePhotos.splice(idx, 1);
-  if (repPhotoIdx === idx) repPhotoIdx = 0;
-  else if (repPhotoIdx > idx) repPhotoIdx--;
-  if (prefix === 'hiking') renderHikePhotos();
-  else if (prefix === 'finish') renderFinishPhotos();
-  else renderPastPhotos();
-}
-
-/* ════ 썸네일 생성 (Canvas API) ════ */
-function createThumbnail(file, maxSize = 300) {
-  return new Promise(resolve => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
+/* ════ 썸네일 생성 ════ */
+function createThumbnail(file, maxSize=300){
+  return new Promise(resolve=>{
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{
       URL.revokeObjectURL(url);
-      const scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
-      const canvas = document.createElement('canvas');
-      canvas.width  = Math.round(img.width  * scale);
-      canvas.height = Math.round(img.height * scale);
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(blob => resolve(blob), 'image/jpeg', 0.75);
+      const scale=Math.min(maxSize/img.width,maxSize/img.height,1);
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.round(img.width*scale); canvas.height=Math.round(img.height*scale);
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      canvas.toBlob(b=>resolve(b),'image/jpeg',0.75);
     };
-    img.onerror = () => resolve(null);
-    img.src = url;
+    img.onerror=()=>resolve(null); img.src=url;
   });
 }
 
-/* ════ 사진 + 썸네일 업로드 ════ */
-async function uploadPhotos() {
-  const urls = [], thumbURLs = [];
-  for (let i = 0; i < hikePhotos.length; i++) {
-    const f = hikePhotos[i];
-    setLoadingMsg(`사진 업로드 중... (${i+1}/${hikePhotos.length})`);
-    const ref = storage.ref(`${familyCode}/photos/${Date.now()}_${i}_${f.name}`);
-    await ref.put(f);
-    urls.push(await ref.getDownloadURL());
-    const thumbBlob = await createThumbnail(f, 300);
-    if (thumbBlob) {
-      const thumbRef = storage.ref(`${familyCode}/thumbs/${Date.now()}_${i}_thumb.jpg`);
-      await thumbRef.put(thumbBlob);
-      thumbURLs.push(await thumbRef.getDownloadURL());
-    }
+/* ════ 사진 업로드 (원본 + 썸네일) ════ */
+async function uploadPhotos(){
+  const urls=[],thumbURLs=[];
+  for(let i=0;i<hikePhotos.length;i++){
+    const f=hikePhotos[i]; setLoadingMsg(`사진 업로드 중... (${i+1}/${hikePhotos.length})`);
+    const ref=storage.ref(`${familyCode}/photos/${Date.now()}_${i}_${f.name}`);
+    await ref.put(f); urls.push(await ref.getDownloadURL());
+    const tb=await createThumbnail(f,300);
+    if(tb){const tr=storage.ref(`${familyCode}/thumbs/${Date.now()}_${i}_thumb.jpg`);await tr.put(tb);thumbURLs.push(await tr.getDownloadURL());}
   }
-  // 대표 사진을 배열 맨 앞으로 이동
-  if (repPhotoIdx > 0 && repPhotoIdx < urls.length) {
-    urls.unshift(urls.splice(repPhotoIdx, 1)[0]);
-    if (thumbURLs.length > repPhotoIdx) thumbURLs.unshift(thumbURLs.splice(repPhotoIdx, 1)[0]);
+  if(repPhotoIdx>0&&repPhotoIdx<urls.length){
+    urls.unshift(urls.splice(repPhotoIdx,1)[0]);
+    if(thumbURLs.length>repPhotoIdx)thumbURLs.unshift(thumbURLs.splice(repPhotoIdx,1)[0]);
   }
-  repPhotoIdx = 0;
-  return { urls, thumbURLs };
+  repPhotoIdx=0; return{urls,thumbURLs};
 }
 
 /* ════ 실시간 등산 저장 ════ */
-async function saveHike() {
+async function saveHike(){
   showLoading('사진 업로드 중...');
   try {
-    const { urls, thumbURLs } = await uploadPhotos();
+    const{urls,thumbURLs}=await uploadPhotos();
     setLoadingMsg('기록 저장 중...');
     await db.collection('hikes').doc(familyCode).collection('records').add({
-      mountain: currentHike.mountain,
-      date: formatDate(currentHike.startTime),
-      startTime: currentHike.startTime.toISOString(),
-      endTime: currentHike.endTime.toISOString(),
-      duration: currentHike.duration,
-      maxAltitude: currentHike.maxAlt,
-      startAltitude: currentHike.startAlt,
-      route: routePoints,
-      distance: calcDistance(routePoints),
-      photos: urls, thumbnails: thumbURLs,
-      memo: document.getElementById('memo-input').value.trim(),
-      isPastRecord: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      mountain:currentHike.mountain, date:formatDate(currentHike.startTime),
+      startTime:currentHike.startTime.toISOString(), endTime:currentHike.endTime.toISOString(),
+      duration:currentHike.duration, maxAltitude:currentHike.maxAlt, startAltitude:currentHike.startAlt,
+      route:routePoints, distance:calcDistance(routePoints),
+      photos:urls, thumbnails:thumbURLs, memo:document.getElementById('memo-input').value.trim(),
+      isPastRecord:false, createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
-    hideLoading(); currentHike = null; hikePhotos = []; routePoints = []; loadHome();
-  } catch (e) { hideLoading(); alert('저장 실패: ' + e.message); }
+    hideLoading();currentHike=null;hikePhotos=[];routePoints=[];loadHome();
+  }catch(e){hideLoading();alert('저장 실패: '+e.message);}
 }
 
-/* ════ 상세 ════ */
-async function showDetail(id) {
-  currentRecordId = id; destroyDetailMap();
-  showScreen('detail');
-  const doc = await db.collection('hikes').doc(familyCode).collection('records').doc(id).get();
-  if (!doc.exists) { alert('기록을 찾을 수 없습니다.'); showHome(); return; }
-  const r = doc.data();
-  document.getElementById('detail-mountain').textContent = '🏔️ ' + r.mountain;
-  document.getElementById('detail-date').textContent = r.date;
-  document.getElementById('detail-type-badge').textContent = r.isPastRecord ? '📝 지난 기록' : '⛰️ 실시간 등산';
-  document.getElementById('detail-time').textContent = r.duration ? formatDuration(r.duration) : '-';
-  document.getElementById('detail-alt').textContent = r.maxAltitude ? r.maxAltitude + 'm' : '-';
-  document.getElementById('detail-distance').textContent = r.distance && r.distance > 0 ? r.distance.toFixed(1) + 'km' : '-';
-
-  const mapSec = document.getElementById('detail-map-section');
-  if (r.route && r.route.length > 1) { mapSec.classList.remove('hidden'); showDetailMap(r.route); }
-  else { mapSec.classList.add('hidden'); }
-
-  const photoSec = document.getElementById('detail-photos-section');
-  const photos = r.photos || [];
-  if (photos.length) {
-    document.getElementById('detail-gallery').innerHTML = photos.map(u =>
-      `<img class="gallery-img" src="${u}" alt="" loading="lazy" onclick="openLightbox('${u}')">`
-    ).join('');
+/* ════ 상세 보기 ════ */
+async function showDetail(id){
+  currentRecordId=id; destroyDetailMap(); showScreen('detail');
+  const doc=await db.collection('hikes').doc(familyCode).collection('records').doc(id).get();
+  if(!doc.exists){alert('기록을 찾을 수 없습니다.');showHome();return;}
+  const r=doc.data();
+  document.getElementById('detail-mountain').textContent='🏔️ '+r.mountain;
+  document.getElementById('detail-date').textContent=r.date;
+  document.getElementById('detail-type-badge').textContent=r.isPastRecord?'📝 지난 기록':'⛰️ 실시간 등산';
+  document.getElementById('detail-time').textContent=r.duration?formatDuration(r.duration):'-';
+  document.getElementById('detail-alt').textContent=r.maxAltitude?r.maxAltitude+'m':'-';
+  document.getElementById('detail-distance').textContent=r.distance&&r.distance>0?r.distance.toFixed(1)+'km':'-';
+  const mapSec=document.getElementById('detail-map-section');
+  if(r.route&&r.route.length>1){mapSec.classList.remove('hidden');showDetailMap(r.route);}else{mapSec.classList.add('hidden');}
+  const photoSec=document.getElementById('detail-photos-section');
+  if(r.photos&&r.photos.length){
+    document.getElementById('detail-gallery').innerHTML=r.photos.map(u=>`<img class="gallery-img" src="${u}" alt="" loading="lazy" onclick="openLightbox('${u}')">`).join('');
     photoSec.classList.remove('hidden');
-  } else { photoSec.classList.add('hidden'); }
-
-  const memoSec = document.getElementById('detail-memo-section');
-  if (r.memo) { document.getElementById('detail-memo').textContent = r.memo; memoSec.classList.remove('hidden'); }
-  else { memoSec.classList.add('hidden'); }
+  }else{photoSec.classList.add('hidden');}
+  const memoSec=document.getElementById('detail-memo-section');
+  if(r.memo){document.getElementById('detail-memo').textContent=r.memo;memoSec.classList.remove('hidden');}else{memoSec.classList.add('hidden');}
+}
+function showDetailMap(route){
+  setTimeout(()=>{
+    const latlngs=route.map(p=>[p.lat,p.lng]);
+    detailMap=L.map('detail-map',{zoomControl:true,attributionControl:false});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(detailMap);
+    L.polyline(latlngs,{color:'#2D6A4F',weight:5,opacity:0.85}).addTo(detailMap);
+    L.circleMarker(latlngs[0],{color:'#1B4332',fillColor:'#52B788',fillOpacity:1,radius:10}).bindPopup('🟢 출발').addTo(detailMap);
+    L.circleMarker(latlngs[latlngs.length-1],{color:'#7B1414',fillColor:'#EF5350',fillOpacity:1,radius:10}).bindPopup('🔴 도착').addTo(detailMap);
+    detailMap.fitBounds(latlngs,{padding:[24,24]});
+    const dist=calcDistance(route), altPts=route.filter(p=>p.alt!==null);
+    const minAlt=altPts.length?Math.min(...altPts.map(p=>p.alt)):null;
+    const maxAlt=altPts.length?Math.max(...altPts.map(p=>p.alt)):null;
+    document.getElementById('route-stats').innerHTML=[
+      {v:route.length+'개',k:'기록 포인트'},{v:dist>0?dist.toFixed(1)+'km':'-',k:'이동 거리'},
+      {v:minAlt!==null?minAlt+'m':'-',k:'최저 고도'},{v:maxAlt!==null?maxAlt+'m':'-',k:'최고 고도'}
+    ].map(s=>`<div class="route-stat"><div class="rv">${s.v}</div><div class="rk">${s.k}</div></div>`).join('');
+  },200);
+}
+function destroyDetailMap(){if(detailMap){detailMap.remove();detailMap=null;}}
+async function deleteRecord(){
+  if(!confirm('이 기록을 삭제할까요?'))return;
+  try{await db.collection('hikes').doc(familyCode).collection('records').doc(currentRecordId).delete();loadHome();}
+  catch(e){alert('삭제 실패: '+e.message);}
 }
 
-function showDetailMap(route) {
-  setTimeout(() => {
-    const latlngs = route.map(p => [p.lat, p.lng]);
-    detailMap = L.map('detail-map', { zoomControl: true, attributionControl: false });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(detailMap);
-    L.polyline(latlngs, { color: '#2D6A4F', weight: 5, opacity: 0.85 }).addTo(detailMap);
-    L.circleMarker(latlngs[0], { color: '#1B4332', fillColor: '#52B788', fillOpacity: 1, radius: 10 }).bindPopup('🟢 출발').addTo(detailMap);
-    L.circleMarker(latlngs[latlngs.length-1], { color: '#7B1414', fillColor: '#EF5350', fillOpacity: 1, radius: 10 }).bindPopup('🔴 도착').addTo(detailMap);
-    detailMap.fitBounds(latlngs, { padding: [24, 24] });
-    const dist = calcDistance(route);
-    const altPts = route.filter(p => p.alt !== null);
-    const minAlt = altPts.length ? Math.min(...altPts.map(p => p.alt)) : null;
-    const maxAlt = altPts.length ? Math.max(...altPts.map(p => p.alt)) : null;
-    document.getElementById('route-stats').innerHTML = [
-      { v: route.length + '개', k: '기록 포인트' },
-      { v: dist > 0 ? dist.toFixed(1) + 'km' : '-', k: '이동 거리' },
-      { v: minAlt !== null ? minAlt + 'm' : '-', k: '최저 고도' },
-      { v: maxAlt !== null ? maxAlt + 'm' : '-', k: '최고 고도' },
-    ].map(s => `<div class="route-stat"><div class="rv">${s.v}</div><div class="rk">${s.k}</div></div>`).join('');
-  }, 200);
+/* ════ 기록 수정 ════ */
+async function startEdit(){
+  showLoading('기록 불러오는 중...');
+  try{
+    const doc=await db.collection('hikes').doc(familyCode).collection('records').doc(currentRecordId).get();
+    const r=doc.data();
+    hideLoading();
+    editExistingPhotos=[...(r.photos||[])];
+    editExistingThumbs=[...(r.thumbnails||[])];
+    editNewPhotos=[]; editRepIdx=0;
+    document.getElementById('edit-mountain').value=r.mountain||'';
+    document.getElementById('edit-date').value=r.date||'';
+    document.getElementById('edit-hours').value=r.duration?Math.floor(r.duration/3600):'';
+    document.getElementById('edit-minutes').value=r.duration?Math.floor((r.duration%3600)/60):'';
+    document.getElementById('edit-altitude').value=r.maxAltitude||'';
+    document.getElementById('edit-memo').value=r.memo||'';
+    document.getElementById('edit-back-btn').onclick=()=>showDetail(currentRecordId);
+    renderEditPhotos();
+    showScreen('edit');
+  }catch(e){hideLoading();alert('불러오기 실패: '+e.message);}
 }
-function destroyDetailMap() { if (detailMap) { detailMap.remove(); detailMap = null; } }
 
-async function deleteRecord() {
-  if (!confirm('이 기록을 삭제할까요?')) return;
-  try { await db.collection('hikes').doc(familyCode).collection('records').doc(currentRecordId).delete(); loadHome(); }
-  catch (e) { alert('삭제 실패: ' + e.message); }
+function renderEditPhotos(){
+  const total=editExistingPhotos.length+editNewPhotos.length;
+  let html='';
+  // 기존 사진
+  editExistingPhotos.forEach((url,i)=>{
+    const isRep=i===editRepIdx;
+    html+=`<div class="photo-thumb-wrap${isRep?' is-rep':''}">
+      <img class="photo-thumb" src="${url}" alt="" loading="lazy">
+      <button class="photo-del" onclick="removeEditPhoto('ex',${i})">✕</button>
+      <button class="photo-rep" onclick="setEditRep('ex',${i})">${isRep?'⭐':'☆'}</button>
+    </div>`;
+  });
+  // 새 사진
+  editNewPhotos.forEach((f,i)=>{
+    const absIdx=editExistingPhotos.length+i, isRep=absIdx===editRepIdx;
+    const url=URL.createObjectURL(f);
+    html+=`<div class="photo-thumb-wrap${isRep?' is-rep':''}">
+      <img class="photo-thumb" src="${url}" alt="">
+      <button class="photo-del" onclick="removeEditPhoto('new',${i})">✕</button>
+      <button class="photo-rep" onclick="setEditRep('new',${i})">${isRep?'⭐':'☆'}</button>
+    </div>`;
+  });
+  // 추가 버튼
+  if(total<MAX_PHOTOS){
+    html+=`<div class="add-photo-btn" onclick="document.getElementById('photo-input-edit').click()">
+      <span class="icon">📷</span><span>추가 (${total}/${MAX_PHOTOS})</span></div>`;
+  }else{
+    html+=`<div class="add-photo-btn full"><span class="icon">📷</span><span>최대 9장</span></div>`;
+  }
+  document.getElementById('edit-photos').innerHTML=html;
 }
-function showHome() { loadHome(); }
+
+function setEditRep(type, idx){
+  editRepIdx=(type==='ex')?idx:editExistingPhotos.length+idx;
+  renderEditPhotos();
+}
+function removeEditPhoto(type, idx){
+  if(type==='ex'){
+    editExistingPhotos.splice(idx,1); editExistingThumbs.splice(idx,1);
+    if(editRepIdx>=editExistingPhotos.length+editNewPhotos.length)editRepIdx=0;
+    else if(editRepIdx>idx)editRepIdx--;
+  }else{
+    const absIdx=editExistingPhotos.length+idx;
+    editNewPhotos.splice(idx,1);
+    if(editRepIdx===absIdx)editRepIdx=0; else if(editRepIdx>absIdx)editRepIdx--;
+  }
+  renderEditPhotos();
+}
+function addEditPhotos(input){
+  const total=editExistingPhotos.length+editNewPhotos.length;
+  const remaining=MAX_PHOTOS-total; if(remaining<=0){input.value='';return;}
+  const files=Array.from(input.files).slice(0,remaining);
+  for(const f of files)editNewPhotos.push(f);
+  renderEditPhotos(); input.value='';
+}
+
+async function saveEdit(){
+  const mountain=document.getElementById('edit-mountain').value.trim(); if(!mountain){alert('산 이름을 입력해주세요.');return;}
+  const date=document.getElementById('edit-date').value; if(!date){alert('날짜를 입력해주세요.');return;}
+  const h=parseInt(document.getElementById('edit-hours').value)||0;
+  const m=parseInt(document.getElementById('edit-minutes').value)||0;
+  const duration=h*3600+m*60;
+  const altitude=parseInt(document.getElementById('edit-altitude').value)||null;
+  const memo=document.getElementById('edit-memo').value.trim();
+  showLoading('사진 업로드 중...');
+  try{
+    const newUrls=[],newThumbs=[];
+    for(let i=0;i<editNewPhotos.length;i++){
+      const f=editNewPhotos[i]; setLoadingMsg(`사진 업로드 중... (${i+1}/${editNewPhotos.length})`);
+      const ref=storage.ref(`${familyCode}/photos/${Date.now()}_${i}_${f.name}`);
+      await ref.put(f); newUrls.push(await ref.getDownloadURL());
+      const tb=await createThumbnail(f,300);
+      if(tb){const tr=storage.ref(`${familyCode}/thumbs/${Date.now()}_${i}_thumb.jpg`);await tr.put(tb);newThumbs.push(await tr.getDownloadURL());}
+    }
+    let allPhotos=[...editExistingPhotos,...newUrls];
+    let allThumbs=[...editExistingThumbs,...newThumbs];
+    if(editRepIdx>0&&editRepIdx<allPhotos.length){
+      allPhotos.unshift(allPhotos.splice(editRepIdx,1)[0]);
+      if(allThumbs.length>editRepIdx)allThumbs.unshift(allThumbs.splice(editRepIdx,1)[0]);
+    }
+    setLoadingMsg('수정 저장 중...');
+    await db.collection('hikes').doc(familyCode).collection('records').doc(currentRecordId).update({
+      mountain,date,duration,maxAltitude:altitude,photos:allPhotos,thumbnails:allThumbs,memo
+    });
+    hideLoading(); editNewPhotos=[];
+    showDetail(currentRecordId);
+  }catch(e){hideLoading();alert('저장 실패: '+e.message);}
+}
 
 /* ════ 라이트박스 ════ */
-function openLightbox(url) { document.getElementById('lightbox-img').src = url; document.getElementById('lightbox').classList.remove('hidden'); }
-function closeLightbox() { document.getElementById('lightbox').classList.add('hidden'); }
+function openLightbox(url){document.getElementById('lightbox-img').src=url;document.getElementById('lightbox').classList.remove('hidden');}
+function closeLightbox(){document.getElementById('lightbox').classList.add('hidden');}
 
 /* ════ 로딩 ════ */
-function showLoading(msg) { document.getElementById('loading-msg').textContent = msg || '처리 중...'; document.getElementById('loading').classList.remove('hidden'); }
-function setLoadingMsg(msg) { document.getElementById('loading-msg').textContent = msg; }
-function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+function showLoading(msg){document.getElementById('loading-msg').textContent=msg||'처리 중...';document.getElementById('loading').classList.remove('hidden');}
+function setLoadingMsg(msg){document.getElementById('loading-msg').textContent=msg;}
+function hideLoading(){document.getElementById('loading').classList.add('hidden');}
 
 /* ════ 유틸 ════ */
-function formatDurationHMS(s) { return `${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`; }
-function formatDuration(s) { const h=Math.floor(s/3600),m=Math.floor((s%3600)/60); if(h>0) return `${h}시간 ${pad(m)}분`; return `${pad(m)}분`; }
-function pad(n) { return String(n).padStart(2,'0'); }
-function formatDate(d) { const kst = new Date(d.getTime()+9*60*60*1000); return kst.toISOString().split('T')[0]; }
-function haversine(p1,p2) { const R=6371,toRad=d=>d*Math.PI/180,dLat=toRad(p2.lat-p1.lat),dLng=toRad(p2.lng-p1.lng),a=Math.sin(dLat/2)**2+Math.cos(toRad(p1.lat))*Math.cos(toRad(p2.lat))*Math.sin(dLng/2)**2; return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)); }
-function calcDistance(pts) { if(!pts||pts.length<2) return 0; let t=0; for(let i=1;i<pts.length;i++) t+=haversine(pts[i-1],pts[i]); return Math.round(t*10)/10; }
-
-/* ════ 뒤로 가기 처리 (홈 화면 종료 확인) ════ */
-function pushHomeState() {
-  window.history.pushState({ appHome: true }, '');
-}
-window.addEventListener('popstate', () => {
-  const isHome = document.getElementById('screen-home').classList.contains('active');
-  if (isHome) {
-    if (confirm('앱을 종료하시겠어요?')) {
-      window.history.back();
-    } else {
-      pushHomeState();
-    }
-  } else {
-    // 다른 화면에서 뒤로 가기 → 홈으로
-    showHome();
-    pushHomeState();
-  }
-});
+function formatDurationHMS(s){return `${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;}
+function formatDuration(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);if(h>0)return `${h}시간 ${pad(m)}분`;return `${pad(m)}분`;}
+function pad(n){return String(n).padStart(2,'0');}
+function formatDate(d){const kst=new Date(d.getTime()+9*60*60*1000);return kst.toISOString().split('T')[0];}
+function haversine(p1,p2){const R=6371,toRad=d=>d*Math.PI/180,dLat=toRad(p2.lat-p1.lat),dLng=toRad(p2.lng-p1.lng),a=Math.sin(dLat/2)**2+Math.cos(toRad(p1.lat))*Math.cos(toRad(p2.lat))*Math.sin(dLng/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
+function calcDistance(pts){if(!pts||pts.length<2)return 0;let t=0;for(let i=1;i<pts.length;i++)t+=haversine(pts[i-1],pts[i]);return Math.round(t*10)/10;}
 
 /* ════ 앱 시작 ════ */
-if (familyCode) loadHome(); else showScreen('code');
-pushHomeState();
+if(familyCode)loadHome();else showScreen('code');
 
 /* ════ SW + 자동 업데이트 ════ */
-if ('serviceWorker' in navigator) {
-  let pendingSW = null;
-  navigator.serviceWorker.register('sw.js').then(reg => {
+if('serviceWorker' in navigator){
+  let pendingSW=null;
+  navigator.serviceWorker.register('sw.js').then(reg=>{
     reg.update();
-    reg.addEventListener('updatefound', () => {
-      const newSW = reg.installing;
-      newSW.addEventListener('statechange', () => {
-        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
-          pendingSW = newSW;
-          if (!currentHike) {
-            newSW.postMessage({ type: 'SKIP_WAITING' });
-          } else {
-            document.getElementById('update-banner-sub').textContent = '등산 완료 후 재시작하면 자동 적용됩니다.';
-            document.getElementById('update-banner').classList.remove('hidden');
-          }
+    reg.addEventListener('updatefound',()=>{
+      const newSW=reg.installing;
+      newSW.addEventListener('statechange',()=>{
+        if(newSW.state==='installed'&&navigator.serviceWorker.controller){
+          pendingSW=newSW;
+          if(!currentHike){newSW.postMessage({type:'SKIP_WAITING'});}
+          else{document.getElementById('update-banner-sub').textContent='등산 완료 후 재시작하면 자동 적용됩니다.';document.getElementById('update-banner').classList.remove('hidden');}
         }
       });
     });
   });
-  navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
-  window.applyUpdate = function() {
-    document.getElementById('update-banner').classList.add('hidden');
-    if (pendingSW) pendingSW.postMessage({ type: 'SKIP_WAITING' });
-  };
+  navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload());
+  window.applyUpdate=function(){document.getElementById('update-banner').classList.add('hidden');if(pendingSW)pendingSW.postMessage({type:'SKIP_WAITING'});};
 }
 </script>
 </body>
