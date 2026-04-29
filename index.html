@@ -85,16 +85,6 @@
       position: absolute; bottom: 0; width: 100%;
       animation: spMtRise 1.2s ease-out 0.3s both;
     }
-    /* 등산가 */
-    .sp-climber {
-      position: absolute; font-size: 26px; line-height: 1;
-      animation: spClimb 2s ease-in-out 0.8s both;
-    }
-    @keyframes spClimb {
-      0%   { bottom: 30%; left: 18%; opacity: 0; }
-      15%  { opacity: 1; }
-      100% { bottom: 56%; left: 44%; opacity: 1; }
-    }
     /* 타이틀 */
     .sp-title {
       position: absolute; top: 13%; width: 100%; text-align: center;
@@ -327,12 +317,8 @@
   <div class="sp-mt-main">
     <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
       <polygon points="200,0 390,200 10,200" fill="#1B4332"/>
-      <polygon points="200,0 240,70 160,70" fill="white" opacity="0.9"/>
-      <polygon points="200,0 220,45 180,45" fill="white" opacity="0.98"/>
     </svg>
   </div>
-  <!-- 등산가 -->
-  <div class="sp-climber">🧗</div>
   <!-- 하단 안개 -->
   <div class="sp-fog"></div>
   <!-- 타이틀 -->
